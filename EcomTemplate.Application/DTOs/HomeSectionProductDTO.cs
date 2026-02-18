@@ -1,0 +1,1 @@
+namespace GrocerySupermarket.Application.DTOs; public class HomeSectionProductDTO { public System.Guid Id {get;set;} public string SectionKey {get;set;} = string.Empty; public System.Guid ProductId {get;set;} public int Position {get;set;} }

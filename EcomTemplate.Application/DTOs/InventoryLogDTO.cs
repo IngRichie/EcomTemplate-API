@@ -1,0 +1,1 @@
+namespace GrocerySupermarket.Application.DTOs; public class InventoryLogDTO { public System.Guid Id {get;set;} public System.Guid VariantId {get;set;} public int Change {get;set;} public string Reason {get;set;} = string.Empty; public System.DateTime CreatedAt {get;set;} }

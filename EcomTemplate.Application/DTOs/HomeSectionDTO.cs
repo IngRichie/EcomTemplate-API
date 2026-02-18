@@ -1,0 +1,1 @@
+namespace GrocerySupermarket.Application.DTOs; public class HomeSectionDTO { public System.Guid Id {get;set;} public string Key {get;set;} = string.Empty; public string? Title {get;set;} public string Type {get;set;} = string.Empty; public int Position {get;set;} public bool IsActive {get;set;} }

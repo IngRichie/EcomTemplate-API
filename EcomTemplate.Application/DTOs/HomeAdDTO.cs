@@ -1,0 +1,1 @@
+namespace GrocerySupermarket.Application.DTOs; public class HomeAdDTO { public System.Guid Id {get;set;} public string SectionKey {get;set;} = string.Empty; public string ImageUrl {get;set;} = string.Empty; public string? Title {get;set;} public string? Subtitle {get;set;} public string? CtaText {get;set;} public string? CtaUrl {get;set;} }

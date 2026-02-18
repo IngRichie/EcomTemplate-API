@@ -1,0 +1,1 @@
+namespace GrocerySupermarket.Application.DTOs; public class BannerDTO { public System.Guid Id {get;set;} public string Title {get;set;} = string.Empty; public string ImageUrl {get;set;} = string.Empty; public string? TargetUrl {get;set;} }

@@ -1,0 +1,1 @@
+namespace GrocerySupermarket.Application.DTOs; public class ReferralCodeDTO { public System.Guid Id {get;set;} public string Code {get;set;} = string.Empty; public string DiscountType {get;set;} = string.Empty; public decimal DiscountValue {get;set;} public int MaxUses {get;set;} public System.DateTime? ExpiresAt {get;set;} }

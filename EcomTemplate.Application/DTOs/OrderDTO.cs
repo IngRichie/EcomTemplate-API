@@ -1,0 +1,1 @@
+namespace GrocerySupermarket.Application.DTOs; public class OrderDTO { public System.Guid Id {get;set;} public decimal TotalAmount {get;set;} public string Status {get;set;} = string.Empty; public System.DateTime CreatedAt {get;set;} public System.Collections.Generic.List<OrderItemDTO> Items {get;set;} = new(); }

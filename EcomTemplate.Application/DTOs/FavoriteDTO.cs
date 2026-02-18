@@ -1,0 +1,1 @@
+namespace GrocerySupermarket.Application.DTOs; public class FavouritesDTO { public System.Guid Id {get;set;} public System.Guid ProductId {get;set;} public System.DateTime CreatedAt {get;set;} }

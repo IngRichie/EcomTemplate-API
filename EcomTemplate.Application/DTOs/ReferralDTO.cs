@@ -1,0 +1,1 @@
+namespace GrocerySupermarket.Application.DTOs; public class ReferralDTO { public System.Guid Id {get;set;} public System.Guid ReferralCodeId {get;set;} public System.Guid ReferredUserId {get;set;} public bool RewardApplied {get;set;} public System.DateTime CreatedAt {get;set;} }

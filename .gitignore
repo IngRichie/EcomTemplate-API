@@ -1,0 +1,29 @@
+## Ignore Visual Studio temporary files, build results, and user-specific files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Build results
+bin/
+obj/
+Debug/
+Release/
+
+## Rider / JetBrains IDE files
+.idea/
+
+## ASP.NET / Web API specific
+appsettings*.json      # optional, if you want to keep secrets out
+wwwroot/lib/
+node_modules/          # if using npm
+logs/
+
+## OS generated files
+.DS_Store
+Thumbs.db
+
+## Others
+*.log
+*.vsix
