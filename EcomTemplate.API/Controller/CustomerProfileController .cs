@@ -99,16 +99,16 @@ public IActionResult GetProfileImageUploadSignature()
 public async Task<IActionResult> SaveProfileImageUrl(
     [FromBody] string imageUrl)
 {
-    if (string.IsNullOrWhiteSpace(imageUrl))
-        return BadRequest("Invalid image URL");
+    // if (string.IsNullOrWhiteSpace(imageUrl))
+    //     return BadRequest("Invalid image URL");
 
-    // 🔐 Cloudinary domain check
-    if (!imageUrl.Contains("res.cloudinary.com"))
-        return BadRequest("Untrusted image source");
+    // // 🔐 Cloudinary domain check
+    // if (!imageUrl.Contains("res.cloudinary.com"))
+    //     return BadRequest("Untrusted image source");
 
-    // 🔐 Folder enforcement
-    if (!imageUrl.Contains("/Sanvarich_Customers_Profile_Pictures/"))
-        return BadRequest("Invalid upload folder");
+    // // 🔐 Folder enforcement
+    // if (!imageUrl.Contains("/Sanvarich_Customers_Profile_Pictures/"))
+    //     return BadRequest("Invalid upload folder");
 
     var customerId = GetCustomerId();
 

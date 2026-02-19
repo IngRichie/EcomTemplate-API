@@ -13,9 +13,8 @@ public class ProductDTO
     public Guid CategoryId { get; set; }
     public string CategoryName { get; set; } = string.Empty;
 
-    // Vendor (FLAT)
-    public Guid VendorId { get; set; }
-    public string VendorName { get; set; } = string.Empty;
+   
+  
 
     // Media & Reviews
     public List<ProductImageDTO> Images { get; set; } = new();

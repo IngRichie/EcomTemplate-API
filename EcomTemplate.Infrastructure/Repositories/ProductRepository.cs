@@ -33,8 +33,6 @@ public class ProductRepository : IProductRepository
             CategoryId = p.Category.CategoryId,
             CategoryName = p.Category.Name,
 
-            VendorId = p.Vendor.VendorId,
-            VendorName = p.Vendor.Name,
 
             Images = p.Images.Select(i => new ProductImageDTO
             {
@@ -138,7 +136,7 @@ public async Task<List<Product>> GetTopProducts(int limit)
         .Include(p => p.Images)
         .Include(p => p.Reviews)
         .Include(p => p.Category)
-        .Include(p => p.Vendor)
+        
         .ToListAsync();
 }
 
@@ -160,15 +158,7 @@ public async Task<List<Product>> GetNewProducts(int limit)
             Description = p.Description,
             CreatedAt = p.CreatedAt,
 
-            // ✅ ADD THESE
-            VendorId = p.VendorId,
-            CategoryId = p.CategoryId,
-
-            Vendor = new Vendor
-            {
-                VendorId = p.Vendor.VendorId,
-                Name = p.Vendor.Name
-            },
+         
 
             Category = new Category
             {
@@ -218,7 +208,7 @@ public async Task<List<Product>> GetMostPopularProductsAsync(int limit)
         .Where(p => productIds.Contains(p.ProductId))
         .Include(p => p.Images)
         .Include(p => p.Category)
-        .Include(p => p.Vendor)
+     
         .Include(p => p.Reviews)
         .ToListAsync();
 }

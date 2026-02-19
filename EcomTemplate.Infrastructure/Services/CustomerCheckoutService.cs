@@ -42,26 +42,12 @@ public class CustomerCheckoutService : ICustomerCheckoutService
 
         decimal discountAmount = 0;
 
-        if (!string.IsNullOrWhiteSpace(request.ReferralCode))
-        {
-            var referral = await _dbContext.ReferralCodes
-                .FirstOrDefaultAsync(r =>
-                    r.Code == request.ReferralCode &&
-                    (r.ExpiresAt == null || r.ExpiresAt > DateTime.UtcNow));
-
-            if (referral != null)
-            {
-                discountAmount =
-                    referral.DiscountType == DiscountType.Percentage
-                        ? subTotal * (referral.DiscountValue / 100)
-                        : referral.DiscountValue;
-            }
-        }
-        else
-        {
+      
+       
+       
             discountAmount =
                 subTotal * (_settings.ReferralDiscountPercentage / 100);
-        }
+      
 
         var taxableAmount = subTotal - discountAmount;
         var taxAmount = taxableAmount * (_settings.TaxPercentage / 100);

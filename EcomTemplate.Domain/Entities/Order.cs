@@ -48,7 +48,7 @@ public class Order
     // =======================
 
     public CustomerProfile? CustomerProfile { get; set; }
-    public GuestUser? GuestUser { get; set; }
+  
 
     public ICollection<OrderItem> Items { get; set; } = new List<OrderItem>();
     public Payment? Payment { get; set; }

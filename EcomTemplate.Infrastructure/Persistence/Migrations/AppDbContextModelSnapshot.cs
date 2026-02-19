@@ -3,20 +3,17 @@ using System;
 using GrocerySupermarket.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace GrocerySupermarket.Infrastructure.Migrations
+namespace EcomTemplate.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260211223054_Removed the stock quantity column on product table")]
-    partial class Removedthestockquantitycolumnonproducttable
+    partial class AppDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,17 +81,12 @@ namespace GrocerySupermarket.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
-                    b.Property<Guid?>("GuestUserId")
-                        .HasColumnType("uuid");
-
                     b.Property<bool>("IsCheckedOut")
                         .HasColumnType("boolean");
 
                     b.HasKey("CartId");
 
                     b.HasIndex("CustomerProfileId");
-
-                    b.HasIndex("GuestUserId");
 
                     b.ToTable("carts");
                 });
@@ -145,37 +137,6 @@ namespace GrocerySupermarket.Infrastructure.Migrations
                     b.HasKey("CategoryId");
 
                     b.ToTable("categories");
-                });
-
-            modelBuilder.Entity("GrocerySupermarket.Domain.Entities.CategoryPromo", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("category_promo");
                 });
 
             modelBuilder.Entity("GrocerySupermarket.Domain.Entities.CheckoutSettings", b =>
@@ -335,91 +296,6 @@ namespace GrocerySupermarket.Infrastructure.Migrations
                     b.ToTable("favourites");
                 });
 
-            modelBuilder.Entity("GrocerySupermarket.Domain.Entities.GuestUser", b =>
-                {
-                    b.Property<Guid>("GuestUserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("DeliveryInstructions")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
-
-                    b.Property<string>("DeviceId")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.Property<string>("FirstName")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<string>("HostelName")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)");
-
-                    b.Property<string>("LastName")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<string>("Phone")
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)");
-
-                    b.Property<string>("RoomNumber")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<string>("UniversityName")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)");
-
-                    b.HasKey("GuestUserId");
-
-                    b.ToTable("guest_users");
-                });
-
-            modelBuilder.Entity("GrocerySupermarket.Domain.Entities.HomeAd", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("CtaText")
-                        .HasColumnType("text");
-
-                    b.Property<string>("CtaUrl")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("SectionKey")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Subtitle")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("home_ad");
-                });
-
             modelBuilder.Entity("GrocerySupermarket.Domain.Entities.HomeSection", b =>
                 {
                     b.Property<Guid>("Id")
@@ -470,30 +346,6 @@ namespace GrocerySupermarket.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("home_section_product");
-                });
-
-            modelBuilder.Entity("GrocerySupermarket.Domain.Entities.InventoryLog", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("Change")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Reason")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("VariantId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("inventory_log");
                 });
 
             modelBuilder.Entity("GrocerySupermarket.Domain.Entities.Invoice", b =>
@@ -567,8 +419,6 @@ namespace GrocerySupermarket.Infrastructure.Migrations
                     b.HasKey("OrderId");
 
                     b.HasIndex("CustomerProfileId");
-
-                    b.HasIndex("GuestUserId");
 
                     b.ToTable("orders");
                 });
@@ -696,14 +546,9 @@ namespace GrocerySupermarket.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
-                    b.Property<Guid>("VendorId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("ProductId");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("VendorId");
 
                     b.ToTable("products");
                 });
@@ -816,64 +661,6 @@ namespace GrocerySupermarket.Infrastructure.Migrations
                     b.ToTable("product_variant_attributes");
                 });
 
-            modelBuilder.Entity("GrocerySupermarket.Domain.Entities.Referral", b =>
-                {
-                    b.Property<Guid>("ReferralId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("IsRedeemed")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("ReferralCode")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("ReferrerCustomerId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("ReferralId");
-
-                    b.ToTable("referrals");
-                });
-
-            modelBuilder.Entity("GrocerySupermarket.Domain.Entities.ReferralCode", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("DiscountType")
-                        .HasColumnType("integer");
-
-                    b.Property<decimal>("DiscountValue")
-                        .HasColumnType("numeric(18,2)");
-
-                    b.Property<DateTime?>("ExpiresAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("MaxUses")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("ReferrerUserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("referral_codes");
-                });
-
             modelBuilder.Entity("GrocerySupermarket.Domain.Entities.RefreshToken", b =>
                 {
                     b.Property<Guid>("RefreshTokenId")
@@ -903,35 +690,13 @@ namespace GrocerySupermarket.Infrastructure.Migrations
                     b.ToTable("refresh_tokens");
                 });
 
-            modelBuilder.Entity("GrocerySupermarket.Domain.Entities.Vendor", b =>
-                {
-                    b.Property<Guid>("VendorId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)");
-
-                    b.HasKey("VendorId");
-
-                    b.ToTable("vendors");
-                });
-
             modelBuilder.Entity("GrocerySupermarket.Domain.Entities.Cart", b =>
                 {
                     b.HasOne("GrocerySupermarket.Domain.Entities.CustomerProfile", "CustomerProfile")
                         .WithMany("Carts")
                         .HasForeignKey("CustomerProfileId");
 
-                    b.HasOne("GrocerySupermarket.Domain.Entities.GuestUser", "GuestUser")
-                        .WithMany()
-                        .HasForeignKey("GuestUserId");
-
                     b.Navigation("CustomerProfile");
-
-                    b.Navigation("GuestUser");
                 });
 
             modelBuilder.Entity("GrocerySupermarket.Domain.Entities.CartItem", b =>
@@ -976,13 +741,7 @@ namespace GrocerySupermarket.Infrastructure.Migrations
                         .WithMany("Orders")
                         .HasForeignKey("CustomerProfileId");
 
-                    b.HasOne("GrocerySupermarket.Domain.Entities.GuestUser", "GuestUser")
-                        .WithMany()
-                        .HasForeignKey("GuestUserId");
-
                     b.Navigation("CustomerProfile");
-
-                    b.Navigation("GuestUser");
                 });
 
             modelBuilder.Entity("GrocerySupermarket.Domain.Entities.OrderItem", b =>
@@ -1023,15 +782,7 @@ namespace GrocerySupermarket.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("GrocerySupermarket.Domain.Entities.Vendor", "Vendor")
-                        .WithMany("Products")
-                        .HasForeignKey("VendorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Category");
-
-                    b.Navigation("Vendor");
                 });
 
             modelBuilder.Entity("GrocerySupermarket.Domain.Entities.ProductImage", b =>
@@ -1139,11 +890,6 @@ namespace GrocerySupermarket.Infrastructure.Migrations
             modelBuilder.Entity("GrocerySupermarket.Domain.Entities.ProductVariant", b =>
                 {
                     b.Navigation("Attributes");
-                });
-
-            modelBuilder.Entity("GrocerySupermarket.Domain.Entities.Vendor", b =>
-                {
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

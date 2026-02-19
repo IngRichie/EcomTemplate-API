@@ -18,8 +18,7 @@ public class Cart
     public Guid? CustomerProfileId { get; set; }
     public CustomerProfile? CustomerProfile { get; set; }
 
-    public Guid? GuestUserId { get; set; }
-    public GuestUser? GuestUser { get; set; }
+  
 
     // Device-based tracking (important for guests)
     [MaxLength(255)]

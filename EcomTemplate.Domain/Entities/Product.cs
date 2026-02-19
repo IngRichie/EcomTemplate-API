@@ -12,8 +12,7 @@ public class Product
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid ProductId { get; set; }
 
-    [Required]
-    public Guid VendorId { get; set; }
+
 
     [Required]
     public Guid CategoryId { get; set; }
@@ -31,7 +30,7 @@ public class Product
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
 
-    public Vendor Vendor { get; set; } = null!;
+
     public Category Category { get; set; } = null!;
     public ICollection<ProductImage> Images { get; set; } = new List<ProductImage>();
     public ICollection<ProductVariant> ProductVariants { get; set; } = new List<ProductVariant>();

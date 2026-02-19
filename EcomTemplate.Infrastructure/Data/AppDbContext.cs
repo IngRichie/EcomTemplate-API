@@ -14,14 +14,11 @@ public class AppDbContext : DbContext
     public DbSet<Product> Products => Set<Product>();
     public DbSet<ProductVariant> ProductVariants => Set<ProductVariant>();
     public DbSet<Category> Categories => Set<Category>();
-    public DbSet<CategoryPromo> CategoryPromos => Set<CategoryPromo>();
-    public DbSet<Vendor> Vendors => Set<Vendor>();
 
     // =======================
     // CUSTOMER / PROFILE
     // =======================
     public DbSet<CustomerProfile> CustomerProfiles => Set<CustomerProfile>();
-    public DbSet<GuestUser> GuestUsers => Set<GuestUser>();
 
     // =======================
     // CART
@@ -49,19 +46,18 @@ public class AppDbContext : DbContext
     // =======================
     public DbSet<Banner> Banners => Set<Banner>();
     public DbSet<HomeSection> HomeSections => Set<HomeSection>();
-    public DbSet<HomeAd> HomeAds => Set<HomeAd>();
+
     public DbSet<HomeSectionProduct> HomeSectionProducts => Set<HomeSectionProduct>();
 
     // =======================
     // INVENTORY
     // =======================
-    public DbSet<InventoryLog> InventoryLogs => Set<InventoryLog>();
+
 
     // =======================
     // REFERRALS
     // =======================
-    public DbSet<Referral> Referrals => Set<Referral>();
-    public DbSet<ReferralCode> ReferralCodes => Set<ReferralCode>();
+
 
             public DbSet<Payment> Payments => Set<Payment>();
 public DbSet<ProductImage> ProductImages => Set<ProductImage>();

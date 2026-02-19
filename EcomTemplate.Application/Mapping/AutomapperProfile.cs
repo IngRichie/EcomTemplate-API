@@ -13,9 +13,8 @@ public class AutoMapperProfile : Profile
         // =======================
         CreateMap<Product, ProductDTO>()
     .ForMember(d => d.CategoryName,
-        o => o.MapFrom(s => s.Category.Name))
-    .ForMember(d => d.VendorName,
-        o => o.MapFrom(s => s.Vendor.Name));
+        o => o.MapFrom(s => s.Category.Name));
+
 
 
        CreateMap<ProductImage, ProductImageDTO>()
@@ -25,10 +24,8 @@ public class AutoMapperProfile : Profile
         CreateMap<ProductReview, ProductReviewDTO>();
         CreateMap<ProductVariant, ProductVariantDTO>();
 
-        // =======================
-        // VENDOR / CATEGORY
-        // =======================
-        CreateMap<Vendor, VendorDTO>();
+    
+      
         CreateMap<Category, CategoryDTO>();
 
         // =======================
@@ -83,19 +80,14 @@ CreateMap<UpdateCustomerProfileDTO, CustomerProfile>()
         // =======================
         CreateMap<Banner, BannerDTO>();
         CreateMap<HomeSection, HomeSectionDTO>();
-        CreateMap<HomeAd, HomeAdDTO>();
+     
         CreateMap<HomeSectionProduct, HomeSectionProductDTO>();
 
         // =======================
         // OTHERS
         // =======================
         CreateMap<Favourites, FavouritesDTO>();
-        CreateMap<InventoryLog, InventoryLogDTO>();
-        CreateMap<GuestUser, GuestUserDTO>();
-        CreateMap<Referral, ReferralDTO>();
-        CreateMap<ReferralCode, ReferralCodeDTO>()
-            .ForMember(d => d.DiscountType,
-                o => o.MapFrom(s => s.DiscountType.ToString()));
+      
 
     
     

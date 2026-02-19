@@ -93,7 +93,7 @@ builder.Services.AddSingleton<CacheService>();
 // ===== PRODUCT & CATEGORY =====
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-builder.Services.AddScoped<ICategoryPromoRepository, CategoryPromoRepository>();
+
 builder.Services.AddScoped<IBannerRepository, BannerRepository>();
 
 // ===== AUTH & PROFILE =====
@@ -111,10 +111,6 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();   // shared ord
 
 // ===== GUEST CART & ORDER =====
 
-builder.Services.AddScoped<IGuestCartRepository, GuestCartRepository>();
-builder.Services.AddScoped<IGuestCheckoutService, GuestCheckoutService>();
-builder.Services.AddScoped<IGuestOrderService, GuestOrderService>();
-builder.Services.AddScoped<IGuestUserService, GuestUserService>();
 
 
 
@@ -196,7 +192,7 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "Sanvarich Customers API",
+        Title = "EcomTemplate API",
         Version = "v1"
     });
 

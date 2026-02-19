@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace GrocerySupermarket.Infrastructure.Migrations
+namespace EcomTemplate.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigrations : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -43,23 +43,6 @@ namespace GrocerySupermarket.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_categories", x => x.CategoryId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "category_promo",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CategoryId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Title = table.Column<string>(type: "text", nullable: false),
-                    ImageUrl = table.Column<string>(type: "text", nullable: false),
-                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_category_promo", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -132,45 +115,6 @@ namespace GrocerySupermarket.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "guest_users",
-                columns: table => new
-                {
-                    GuestUserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    DeviceId = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    FirstName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    LastName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    Email = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
-                    Phone = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: true),
-                    UniversityName = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    HostelName = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    RoomNumber = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    DeliveryInstructions = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_guest_users", x => x.GuestUserId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "home_ad",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    SectionKey = table.Column<string>(type: "text", nullable: false),
-                    ImageUrl = table.Column<string>(type: "text", nullable: false),
-                    Title = table.Column<string>(type: "text", nullable: true),
-                    Subtitle = table.Column<string>(type: "text", nullable: true),
-                    CtaText = table.Column<string>(type: "text", nullable: true),
-                    CtaUrl = table.Column<string>(type: "text", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_home_ad", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "home_section",
                 columns: table => new
                 {
@@ -199,21 +143,6 @@ namespace GrocerySupermarket.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_home_section_product", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "inventory_log",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    VariantId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Change = table.Column<int>(type: "integer", nullable: false),
-                    Reason = table.Column<string>(type: "text", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_inventory_log", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -253,48 +182,44 @@ namespace GrocerySupermarket.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "referral_codes",
+                name: "products",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ReferrerUserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    DiscountType = table.Column<int>(type: "integer", nullable: false),
-                    DiscountValue = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    MaxUses = table.Column<int>(type: "integer", nullable: false),
-                    ExpiresAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    ProductId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_referral_codes", x => x.Id);
+                    table.PrimaryKey("PK_products", x => x.ProductId);
+                    table.ForeignKey(
+                        name: "FK_products_categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "categories",
+                        principalColumn: "CategoryId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "referrals",
+                name: "carts",
                 columns: table => new
                 {
-                    ReferralId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ReferrerCustomerId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ReferralCode = table.Column<string>(type: "text", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsRedeemed = table.Column<bool>(type: "boolean", nullable: false)
+                    CartId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CustomerProfileId = table.Column<Guid>(type: "uuid", nullable: true),
+                    DeviceId = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
+                    IsCheckedOut = table.Column<bool>(type: "boolean", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_referrals", x => x.ReferralId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "vendors",
-                columns: table => new
-                {
-                    VendorId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_vendors", x => x.VendorId);
+                    table.PrimaryKey("PK_carts", x => x.CartId);
+                    table.ForeignKey(
+                        name: "FK_carts_customer_profiles_CustomerProfileId",
+                        column: x => x.CustomerProfileId,
+                        principalTable: "customer_profiles",
+                        principalColumn: "CustomerProfileId");
                 });
 
             migrationBuilder.CreateTable(
@@ -315,54 +240,6 @@ namespace GrocerySupermarket.Infrastructure.Migrations
                         principalTable: "customer_profiles",
                         principalColumn: "CustomerProfileId",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "refresh_tokens",
-                columns: table => new
-                {
-                    RefreshTokenId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CustomerProfileId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Token = table.Column<string>(type: "text", nullable: false),
-                    ExpiresAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsRevoked = table.Column<bool>(type: "boolean", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_refresh_tokens", x => x.RefreshTokenId);
-                    table.ForeignKey(
-                        name: "FK_refresh_tokens_customer_profiles_CustomerProfileId",
-                        column: x => x.CustomerProfileId,
-                        principalTable: "customer_profiles",
-                        principalColumn: "CustomerProfileId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "carts",
-                columns: table => new
-                {
-                    CartId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CustomerProfileId = table.Column<Guid>(type: "uuid", nullable: true),
-                    GuestUserId = table.Column<Guid>(type: "uuid", nullable: true),
-                    DeviceId = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
-                    IsCheckedOut = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_carts", x => x.CartId);
-                    table.ForeignKey(
-                        name: "FK_carts_customer_profiles_CustomerProfileId",
-                        column: x => x.CustomerProfileId,
-                        principalTable: "customer_profiles",
-                        principalColumn: "CustomerProfileId");
-                    table.ForeignKey(
-                        name: "FK_carts_guest_users_GuestUserId",
-                        column: x => x.GuestUserId,
-                        principalTable: "guest_users",
-                        principalColumn: "GuestUserId");
                 });
 
             migrationBuilder.CreateTable(
@@ -388,88 +265,27 @@ namespace GrocerySupermarket.Infrastructure.Migrations
                         column: x => x.CustomerProfileId,
                         principalTable: "customer_profiles",
                         principalColumn: "CustomerProfileId");
-                    table.ForeignKey(
-                        name: "FK_orders_guest_users_GuestUserId",
-                        column: x => x.GuestUserId,
-                        principalTable: "guest_users",
-                        principalColumn: "GuestUserId");
                 });
 
             migrationBuilder.CreateTable(
-                name: "products",
+                name: "refresh_tokens",
                 columns: table => new
                 {
-                    ProductId = table.Column<Guid>(type: "uuid", nullable: false),
-                    VendorId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CategoryId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
-                    StockQuantity = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    RefreshTokenId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CustomerProfileId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Token = table.Column<string>(type: "text", nullable: false),
+                    ExpiresAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    IsRevoked = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_products", x => x.ProductId);
+                    table.PrimaryKey("PK_refresh_tokens", x => x.RefreshTokenId);
                     table.ForeignKey(
-                        name: "FK_products_categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "categories",
-                        principalColumn: "CategoryId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_products_vendors_VendorId",
-                        column: x => x.VendorId,
-                        principalTable: "vendors",
-                        principalColumn: "VendorId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "payments",
-                columns: table => new
-                {
-                    PaymentId = table.Column<Guid>(type: "uuid", nullable: false),
-                    OrderId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Provider = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    Amount = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
-                    Status = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_payments", x => x.PaymentId);
-                    table.ForeignKey(
-                        name: "FK_payments_orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "orders",
-                        principalColumn: "OrderId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "order_items",
-                columns: table => new
-                {
-                    OrderItemId = table.Column<Guid>(type: "uuid", nullable: false),
-                    OrderId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ProductId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Quantity = table.Column<int>(type: "integer", nullable: false),
-                    UnitPrice = table.Column<decimal>(type: "numeric(10,2)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_order_items", x => x.OrderItemId);
-                    table.ForeignKey(
-                        name: "FK_order_items_orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "orders",
-                        principalColumn: "OrderId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_order_items_products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "products",
-                        principalColumn: "ProductId",
+                        name: "FK_refresh_tokens_customer_profiles_CustomerProfileId",
+                        column: x => x.CustomerProfileId,
+                        principalTable: "customer_profiles",
+                        principalColumn: "CustomerProfileId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -539,6 +355,55 @@ namespace GrocerySupermarket.Infrastructure.Migrations
                         column: x => x.ProductId,
                         principalTable: "products",
                         principalColumn: "ProductId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "order_items",
+                columns: table => new
+                {
+                    OrderItemId = table.Column<Guid>(type: "uuid", nullable: false),
+                    OrderId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ProductId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
+                    UnitPrice = table.Column<decimal>(type: "numeric(10,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_order_items", x => x.OrderItemId);
+                    table.ForeignKey(
+                        name: "FK_order_items_orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "orders",
+                        principalColumn: "OrderId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_order_items_products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "products",
+                        principalColumn: "ProductId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "payments",
+                columns: table => new
+                {
+                    PaymentId = table.Column<Guid>(type: "uuid", nullable: false),
+                    OrderId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Provider = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Amount = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
+                    Status = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_payments", x => x.PaymentId);
+                    table.ForeignKey(
+                        name: "FK_payments_orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "orders",
+                        principalColumn: "OrderId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -616,11 +481,6 @@ namespace GrocerySupermarket.Infrastructure.Migrations
                 column: "CustomerProfileId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_carts_GuestUserId",
-                table: "carts",
-                column: "GuestUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_customer_auth_CustomerProfileId",
                 table: "customer_auth",
                 column: "CustomerProfileId",
@@ -640,11 +500,6 @@ namespace GrocerySupermarket.Infrastructure.Migrations
                 name: "IX_orders_CustomerProfileId",
                 table: "orders",
                 column: "CustomerProfileId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_orders_GuestUserId",
-                table: "orders",
-                column: "GuestUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_payments_OrderId",
@@ -683,11 +538,6 @@ namespace GrocerySupermarket.Infrastructure.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_products_VendorId",
-                table: "products",
-                column: "VendorId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_refresh_tokens_CustomerProfileId",
                 table: "refresh_tokens",
                 column: "CustomerProfileId");
@@ -703,9 +553,6 @@ namespace GrocerySupermarket.Infrastructure.Migrations
                 name: "cart_items");
 
             migrationBuilder.DropTable(
-                name: "category_promo");
-
-            migrationBuilder.DropTable(
                 name: "checkout_settings");
 
             migrationBuilder.DropTable(
@@ -718,16 +565,10 @@ namespace GrocerySupermarket.Infrastructure.Migrations
                 name: "favourites");
 
             migrationBuilder.DropTable(
-                name: "home_ad");
-
-            migrationBuilder.DropTable(
                 name: "home_section");
 
             migrationBuilder.DropTable(
                 name: "home_section_product");
-
-            migrationBuilder.DropTable(
-                name: "inventory_log");
 
             migrationBuilder.DropTable(
                 name: "invoice");
@@ -751,12 +592,6 @@ namespace GrocerySupermarket.Infrastructure.Migrations
                 name: "product_variant_attributes");
 
             migrationBuilder.DropTable(
-                name: "referral_codes");
-
-            migrationBuilder.DropTable(
-                name: "referrals");
-
-            migrationBuilder.DropTable(
                 name: "refresh_tokens");
 
             migrationBuilder.DropTable(
@@ -772,16 +607,10 @@ namespace GrocerySupermarket.Infrastructure.Migrations
                 name: "customer_profiles");
 
             migrationBuilder.DropTable(
-                name: "guest_users");
-
-            migrationBuilder.DropTable(
                 name: "products");
 
             migrationBuilder.DropTable(
                 name: "categories");
-
-            migrationBuilder.DropTable(
-                name: "vendors");
         }
     }
 }
