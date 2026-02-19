@@ -27,3 +27,6 @@ Thumbs.db
 ## Others
 *.log
 *.vsix
+
+
+**/.env
