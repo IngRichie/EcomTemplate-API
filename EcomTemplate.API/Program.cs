@@ -242,6 +242,17 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:3001")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
 // =============================================================
 // BUILD APP
 // =============================================================
@@ -266,6 +277,11 @@ else
     app.UseExceptionHandler("/error");
     app.UseHttpsRedirection();
 }
+
+
+
+app.UseCors("AllowFrontend");
+
 
 app.UseAuthentication();
 app.UseAuthorization();

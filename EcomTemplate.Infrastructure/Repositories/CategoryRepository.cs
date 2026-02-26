@@ -50,40 +50,54 @@ public class CategoryRepository : ICategoryRepository
     //     return categories;
     // }
 
+
 public async Task<List<CategoryDTO>> GetAllCategoriesAsync(
     int categoryLimit,
     int productsPerCategory)
 {
-    return await _dbContext.Categories
-        .OrderBy(c => c.Name)
-        .Take(categoryLimit)
-        .Select(c => new CategoryDTO
+    var categories = await _dbContext.Categories
+    .Include(c => c.Products)
+        .ThenInclude(p => p.Images)
+    .Include(c => c.Products)
+        .ThenInclude(p => p.ProductVariants)
+    .OrderBy(c => c.Name)
+    .Take(categoryLimit)
+    .ToListAsync();
+
+var dto = categories.Select(c => new CategoryDTO
+{
+    Id = c.CategoryId,
+    Name = c.Name,
+    Products = c.Products
+        .OrderBy(p => p.Name)
+        .Take(productsPerCategory)
+        .Select(p => new ProductSummaryDTO
         {
-            Id = c.CategoryId,
-            Name = c.Name,
-            // Slug = c.Name.ToLower().Replace(" ", "-"),
-
-            Products = c.Products
-                .OrderBy(p => p.Name)
-                .Take(productsPerCategory)
-                .Select(p => new ProductSummaryDTO
+            Id = p.ProductId,
+            Name = p.Name,
+            Description = p.Description ?? "No description available",
+            PrimaryImage = p.Images.FirstOrDefault(i => i.IsPrimary) is { } img
+                ? new ProductImageDTO
                 {
-                    Id = p.ProductId,
-                    Name = p.Name,
-
-                    PrimaryImage = p.Images   
-                        .Where(i => i.IsPrimary)
-                        .Select(i => new ProductImageDTO
-                        {
-                            ImageId = i.ProductImageId,
-                            Url = i.ImageUrl,
-                            IsPrimary = i.IsPrimary
-                        })
-                        .FirstOrDefault()
-                })
-                .ToList()
+                    ImageId = img.ProductImageId,
+                    Url = img.ImageUrl,
+                    IsPrimary = img.IsPrimary
+                }
+                : null,
+            Variant = p.ProductVariants.OrderBy(v => v.Price).FirstOrDefault() is { } v
+                ? new ProductVariantDTO
+                {
+                    ProductVariantId = v.ProductVariantId,
+                    Sku = v.Sku,
+                    Price = v.Price,
+                    Stock = v.Stock
+                }
+                : null
         })
-        .ToListAsync();
+        .ToList()
+}).ToList();
+
+return dto;
 }
 
 
