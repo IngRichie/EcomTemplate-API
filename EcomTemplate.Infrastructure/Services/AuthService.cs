@@ -147,7 +147,7 @@ public class AuthService : IAuthService
             ExpiresIn = 3600, // 1 hour (stub)
             Customer = new CustomerDTO
             {
-                CustomerId = profile.CustomerProfileId,
+                // CustomerId = profile.CustomerProfileId,
                 FirstName = profile.FirstName ?? string.Empty,
                 LastName = profile.LastName ?? string.Empty,
                 Email = profile.Email ?? string.Empty,

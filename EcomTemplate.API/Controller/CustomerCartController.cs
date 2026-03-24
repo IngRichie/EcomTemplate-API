@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
 using GrocerySupermarket.Application.Interfaces;
 using GrocerySupermarket.Application.DTOs;
+using EcomTemplate.API.HelperFunctions;
 
 namespace GrocerySupermarket.WebAPI.Controller;
 
@@ -24,8 +25,9 @@ public class CustomerCartController : ControllerBase
     // GET CART
     // =======================
     [HttpGet]
-    public async Task<IActionResult> GetCart([FromQuery] Guid customerId)
+    public async Task<IActionResult> GetCart()
     {
+        var customerId = UserHelper.GetUserId(User);
         var cart = await _cartRepository.GetCartByCustomer(customerId);
         if (cart == null)
             return NotFound("Cart not found.");
@@ -37,8 +39,9 @@ public class CustomerCartController : ControllerBase
     // CREATE CART
     // =======================
     [HttpPost("create")]
-    public async Task<IActionResult> CreateCart([FromQuery] Guid customerId)
+    public async Task<IActionResult> CreateCart()
     {
+        var customerId = UserHelper.GetUserId(User);
         var cart = await _cartRepository.CreateCart(customerId);
         return Ok(_mapper.Map<CartDTO>(cart));
     }

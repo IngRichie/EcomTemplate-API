@@ -2,7 +2,7 @@ namespace GrocerySupermarket.Application.DTOs;
 
 public class CustomerDTO
 {
-    public Guid CustomerId { get; set; }
+    // public Guid CustomerId { get; set; }
 
     public string? FirstName { get; set; }
 

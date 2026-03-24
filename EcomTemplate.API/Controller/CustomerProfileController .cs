@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using GrocerySupermarket.Application.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using CloudinaryDotNet;
-// using GrocerySupermarket.Application.Services;
+using EcomTemplate.API.HelperFunctions;
 
 
 [ApiController]
@@ -20,11 +20,15 @@ public class CustomerProfileController : ControllerBase
         _cloudinary = cloudinary;
     }
 
+
+  
+
     // 🔹 GET profile
     [HttpGet]
     public async Task<IActionResult> GetProfile()
     {
-        var customerId = GetCustomerId(); // from JWT / API key
+        var customerId = UserHelper.GetUserId(User);
+        Console.WriteLine("This is the customer id: ", customerId);
         var profile = await _service.GetProfileAsync(customerId);
 
         if (profile == null)
@@ -38,7 +42,7 @@ public class CustomerProfileController : ControllerBase
     public async Task<IActionResult> UpdateProfile(
         [FromBody] UpdateCustomerProfileDTO dto)
     {
-        var customerId = GetCustomerId();
+        var customerId = UserHelper.GetUserId(User);
         var profile = await _service.CreateOrUpdateAsync(customerId, dto);
         return Ok(profile);
     }
@@ -47,27 +51,19 @@ public class CustomerProfileController : ControllerBase
     [HttpDelete]
     public async Task<IActionResult> DeleteProfile()
     {
-        var customerId = GetCustomerId();
+        var customerId = UserHelper.GetUserId(User);
         await _service.DeleteAsync(customerId);
         return NoContent();
     }
 
-    private Guid GetCustomerId()
-{
-    var customerIdClaim = User.FindFirst("customerId");
 
-    if (customerIdClaim == null)
-        throw new UnauthorizedAccessException("Customer is not authenticated.");
-
-    return Guid.Parse(customerIdClaim.Value);
-}
 
 
 [Authorize]
 [HttpPost("profile/image/signature")]
 public IActionResult GetProfileImageUploadSignature()
 {
-    var customerId = GetCustomerId();
+    var customerId = UserHelper.GetUserId(User);
 
     var timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
@@ -88,7 +84,7 @@ public IActionResult GetProfileImageUploadSignature()
     {
         signature,
         timestamp,
-        folder = "Sanvarich_Customers_Profile_Pictures",
+        folder = "EcomTemplate_Customers_Profile_Pictures",
         maxFileSize = 5 * 1024 * 1024 // 5MB
     });
 }
@@ -99,18 +95,9 @@ public IActionResult GetProfileImageUploadSignature()
 public async Task<IActionResult> SaveProfileImageUrl(
     [FromBody] string imageUrl)
 {
-    // if (string.IsNullOrWhiteSpace(imageUrl))
-    //     return BadRequest("Invalid image URL");
+ 
 
-    // // 🔐 Cloudinary domain check
-    // if (!imageUrl.Contains("res.cloudinary.com"))
-    //     return BadRequest("Untrusted image source");
-
-    // // 🔐 Folder enforcement
-    // if (!imageUrl.Contains("/Sanvarich_Customers_Profile_Pictures/"))
-    //     return BadRequest("Invalid upload folder");
-
-    var customerId = GetCustomerId();
+    var customerId = UserHelper.GetUserId(User);
 
     await _service.UpdateProfileImageAsync(customerId, imageUrl);
 
