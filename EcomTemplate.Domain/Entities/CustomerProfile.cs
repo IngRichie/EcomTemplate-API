@@ -38,27 +38,8 @@ public class CustomerProfile
     // =======================
 
     [MaxLength(150)]
-    public string? UniversityName { get; set; }
+    public string? Location { get; set; }
 
-    [MaxLength(150)]
-    public string? HostelName { get; set; }
-
-    [MaxLength(50)]
-    public string? RoomNumber { get; set; }
-
-/// <summary>
-/// Optional delivery instructions provided by the customer to help the rider
-/// locate the delivery point easily within a campus or residence.
-/// 
-/// Examples:
-/// - "Hostel B, Block 2, Room 204"
-/// - "Call me when you reach the main gate"
-/// - "Deliver to the porter, I’ll come down"
-/// - "Second gate beside the science faculty"
-/// - "Do not knock, call instead"
-/// </summary>
-[MaxLength(500)]
-public string? DeliveryInstructions { get; set; }
 
 
     
