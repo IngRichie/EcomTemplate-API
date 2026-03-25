@@ -1,4 +1,5 @@
 using AutoMapper;
+using EcomTemplate.API.HelperFunctions;
 using GrocerySupermarket.Application.DTOs;
 using GrocerySupermarket.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -23,7 +24,8 @@ public class OrdersController : ControllerBase
     [HttpPost("checkout")]
     public async Task<IActionResult> Checkout([FromBody] CheckoutRequestDTO request)
     {
-        var orderId = await _orderService.CreateOrderFromCheckoutAsync(request);
+        var customerId = UserHelper.GetUserId(User);
+        var orderId = await _orderService.CreateOrderFromCheckoutAsync(request, customerId);
         return Ok(new { orderId });
     }
 

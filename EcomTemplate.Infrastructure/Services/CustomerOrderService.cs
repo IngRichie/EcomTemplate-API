@@ -28,19 +28,18 @@ public class CustomerOrderService : IOrderService
         _mapper = mapper;
     }
 
-    public async Task<Guid> CreateOrderFromCheckoutAsync(CheckoutRequestDTO request)
+    public async Task<Guid> CreateOrderFromCheckoutAsync(CheckoutRequestDTO request, Guid customerId)
     {
-        if (!request.CustomerProfileId.HasValue)
-            throw new InvalidOperationException("Customer ID is required for this service.");
+       
 
-        var summary = await _checkoutService.PreviewCheckoutAsync(request);
+        var summary = await _checkoutService.PreviewCheckoutAsync(request, customerId);
 
-        var cart = await _cartRepo.GetCartByCustomer(request.CustomerProfileId.Value)
+        var cart = await _cartRepo.GetCartByCustomer(customerId)
                    ?? throw new InvalidOperationException("Customer cart not found.");
 
         var order = new Order
         {
-            CustomerProfileId = request.CustomerProfileId,
+            CustomerProfileId =  customerId,
             TotalAmount = summary.Total,
             Status = "pending",
             CreatedAt = DateTime.UtcNow

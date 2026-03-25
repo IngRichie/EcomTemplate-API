@@ -1,3 +1,4 @@
+using EcomTemplate.API.HelperFunctions;
 using GrocerySupermarket.Application.DTOs;
 using GrocerySupermarket.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -20,9 +21,10 @@ namespace GrocerySupermarket.WebAPI.Controllers
         [HttpPost("preview")]
         public async Task<IActionResult> Preview([FromBody] CheckoutRequestDTO request)
         {
+            var customerId = UserHelper.GetUserId(User);
             try
             {
-                var result = await _checkoutService.PreviewCheckoutAsync(request);
+                var result = await _checkoutService.PreviewCheckoutAsync(request, customerId);
                 return Ok(result);
             }
             catch (InvalidOperationException ex)
@@ -37,10 +39,10 @@ namespace GrocerySupermarket.WebAPI.Controllers
             if (!User.Identity?.IsAuthenticated ?? true)
                 return Unauthorized("User must be authenticated for customer checkout.");
 
-            var customerId = Guid.Parse(User.FindFirst("customerId")!.Value);
-            request.CustomerProfileId = customerId;
+            var customerId = UserHelper.GetUserId(User);
+            
 
-            var orderId = await _checkoutService.ConfirmCheckoutAsync(request);
+            var orderId = await _checkoutService.ConfirmCheckoutAsync(request, customerId);
             return Ok(new { orderId });
         }
     }

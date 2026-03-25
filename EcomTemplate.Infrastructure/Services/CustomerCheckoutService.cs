@@ -26,13 +26,12 @@ public class CustomerCheckoutService : ICustomerCheckoutService
         _settings = settings.Value;
     }
 
-    public async Task<CheckoutSummaryDTO> PreviewCheckoutAsync(CheckoutRequestDTO request)
+    public async Task<CheckoutSummaryDTO> PreviewCheckoutAsync(CheckoutRequestDTO request, Guid customerId)
     {
-        if (!request.CustomerProfileId.HasValue)
-            throw new InvalidOperationException("Customer ID is required.");
+  
 
         var cart = await _cartRepository
-            .GetCartByCustomer(request.CustomerProfileId.Value);
+            .GetCartByCustomer(customerId);
 
         if (cart == null || !cart.CartItems.Any())
             throw new InvalidOperationException("Cart is empty.");
@@ -43,10 +42,7 @@ public class CustomerCheckoutService : ICustomerCheckoutService
         decimal discountAmount = 0;
 
       
-       
-       
-            discountAmount =
-                subTotal * (_settings.ReferralDiscountPercentage / 100);
+        discountAmount = subTotal * (_settings.ReferralDiscountPercentage / 100);
       
 
         var taxableAmount = subTotal - discountAmount;
@@ -63,23 +59,22 @@ public class CustomerCheckoutService : ICustomerCheckoutService
         };
     }
 
-    public async Task<Guid> ConfirmCheckoutAsync(CheckoutRequestDTO request)
+    public async Task<Guid> ConfirmCheckoutAsync(CheckoutRequestDTO request, Guid customerId)
     {
-        if (!request.CustomerProfileId.HasValue)
-            throw new InvalidOperationException("Customer ID is required.");
+        
 
         // Recalculate totals (security check)
-        var summary = await PreviewCheckoutAsync(request);
+        var summary = await PreviewCheckoutAsync(request, customerId);
 
         var cart = await _cartRepository
-            .GetCartByCustomer(request.CustomerProfileId.Value);
+            .GetCartByCustomer(customerId);
 
         if (cart == null)
             throw new InvalidOperationException("Cart not found.");
 
         var order = new Order
         {
-            CustomerProfileId = request.CustomerProfileId,
+            CustomerProfileId = customerId,
             TotalAmount = summary.Total,
             Status = "pending",
             CreatedAt = DateTime.UtcNow
