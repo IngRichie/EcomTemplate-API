@@ -30,8 +30,9 @@ public class OrdersController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetMyOrders(Guid customerId)
+    public async Task<IActionResult> GetMyOrders()
     {
+        var customerId = UserHelper.GetUserId(User);
         var orders = await _orderRepository.GetByCustomerAsync(customerId);
         return Ok(_mapper.Map<List<OrderDTO>>(orders));
     }
