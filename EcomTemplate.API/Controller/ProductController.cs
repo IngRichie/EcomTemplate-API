@@ -76,17 +76,19 @@ public class ProductController : ControllerBase
     // ===============================
     // TOP PRODUCTS (BY REVIEWS)
     // ===============================
-    [HttpGet("top")]
-    public async Task<IActionResult> TopProducts([FromQuery] int limit = 10)
-    {
-        var products = await _productRepository.GetTopProducts(limit);
+  [HttpGet("all")]
+public async Task<IActionResult> GetAllProducts(
+    [FromQuery] int limit = 50,
+    [FromQuery] int offset = 0)
+{
+    var products = await _productRepository.GetAllProducts(limit, offset);
 
-        if (!products.Any())
-            return Ok(new List<ProductDTO>());
+    if (!products.Any())
+        return Ok(new List<ProductDTO>());
 
-        var dto = _mapper.Map<List<ProductDTO>>(products);
-        return Ok(dto);
-    }
+    var dto = _mapper.Map<List<ProductDTO>>(products);
+    return Ok(dto);
+}
 
     // ===============================
     // NEW PRODUCTS

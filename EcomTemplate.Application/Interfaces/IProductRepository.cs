@@ -13,7 +13,7 @@ public interface IProductRepository
     //     int pageSize);
     Task<ProductDTO?> GetProductDetails(Guid productId);
 
-    Task<List<Product>> GetTopProducts(int limit);
+    Task<List<Product>> GetAllProducts(int limit = 50, int offset = 0);
 
 Task<List<Product>> GetNewProducts(int limit);
 Task<List<Product>> GetMostPopularProductsAsync(int limit);

@@ -120,23 +120,16 @@ public class ProductRepository : IProductRepository
     }
 
 
-public async Task<List<Product>> GetTopProducts(int limit)
+public async Task<List<Product>> GetAllProducts(int limit = 50, int offset = 0)
 {
-    if (limit <= 0) limit = 10;
-
-    var productIds = await _dbContext.ProductReviews
-        .GroupBy(r => r.ProductId)
-        .OrderByDescending(g => g.Count())
-        .Select(g => g.Key)
-        .Take(limit)
-        .ToListAsync();
-
     return await _dbContext.Products
-        .Where(p => productIds.Contains(p.ProductId))
         .Include(p => p.Images)
         .Include(p => p.Reviews)
         .Include(p => p.Category)
-        
+        .Include(p => p.ProductVariants) // ✅ VERY IMPORTANT (you were missing this)
+        .OrderByDescending(p => p.CreatedAt) // newest first (optional)
+        .Skip(offset)
+        .Take(limit)
         .ToListAsync();
 }
 
