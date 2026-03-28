@@ -39,8 +39,10 @@ public class CustomerCartRepository : ICustomerCartRepository
         return await _db.Carts
             .Include(c => c.CartItems)
                 .ThenInclude(ci => ci.Product)
+                .ThenInclude(ci => ci.Images)
             .Include(c => c.CartItems)
                 .ThenInclude(ci => ci.ProductVariant)
+               
             .FirstOrDefaultAsync(c => c.CustomerProfileId == customerId && !c.IsCheckedOut);
     }
 
