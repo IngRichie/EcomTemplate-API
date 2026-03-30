@@ -2,7 +2,7 @@ using GrocerySupermarket.Application.DTOs;
 using GrocerySupermarket.Application.Interfaces;
 using GrocerySupermarket.Domain.Entities;
 
-namespace GrocerySupermarket.Infrastructure.Repositories;
+namespace GrocerySupermarket.Infrastructure.Services;
 
 public class PaymentService : IPaymentService
 {
@@ -26,20 +26,13 @@ public class PaymentService : IPaymentService
         {
             OrderId = order.OrderId,
             Provider = dto.Provider,
-            Amount = order.TotalAmount, // 🔒 ALWAYS from order
-            Status = dto.Status,
+            Amount = order.TotalAmount,
+            Status = "pending",
             CreatedAt = DateTime.UtcNow
         };
 
         await _paymentRepo.AddAsync(payment);
         await _paymentRepo.SaveAsync();
-
-        // Optional: update order status
-        order.Status = payment.Status == "success"
-            ? "paid"
-            : "payment_failed";
-
-        await _orderRepo.SaveAsync();
 
         return new PaymentDTO
         {
@@ -48,8 +41,7 @@ public class PaymentService : IPaymentService
             Provider = payment.Provider,
             Amount = payment.Amount,
             Status = payment.Status,
-            CreatedAt = payment.CreatedAt,
-            ProviderReference = dto.ProviderReference
+            CreatedAt = payment.CreatedAt
         };
     }
 
@@ -67,5 +59,32 @@ public class PaymentService : IPaymentService
             Status = payment.Status,
             CreatedAt = payment.CreatedAt
         };
+    }
+
+    // ✅ NEW: Initialize payment (Flutterwave-ready)
+    public async Task<string> InitializeAsync(InitializePaymentDTO dto)
+    {
+        var order = await _orderRepo.GetByIdAsync(dto.OrderId)
+            ?? throw new Exception("Order not found");
+
+        // 1️⃣ Create payment record
+        var payment = new Payment
+        {
+            OrderId = order.OrderId,
+            Provider = "Flutterwave",
+            Amount = order.TotalAmount,
+            Status = "pending",
+            CreatedAt = DateTime.UtcNow
+        };
+
+        await _paymentRepo.AddAsync(payment);
+        await _paymentRepo.SaveAsync();
+
+        // 2️⃣ HERE you will call Flutterwave API (later)
+        // For now, return a mock URL
+
+        var paymentUrl = $"https://payment-gateway.com/pay/{payment.PaymentId}";
+
+        return paymentUrl;
     }
 }

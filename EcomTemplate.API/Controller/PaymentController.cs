@@ -21,12 +21,38 @@ public class PaymentsController : ControllerBase
     // CREATE PAYMENT
     // =======================
 
-    [HttpPost]
-    public async Task<IActionResult> CreatePayment([FromBody] PaymentDTO dto)
+  [HttpPost]
+public async Task<IActionResult> CreatePayment([FromBody] PaymentDTO dto)
+{
+    try
     {
+        if (dto == null)
+            return BadRequest(new { error = "Invalid payment data" });
+
         var result = await _paymentService.CreatePaymentAsync(dto);
+
         return Ok(result);
     }
+    catch 
+    {
+      
+        return StatusCode(500, new
+        {
+            error = "Something went wrong while processing payment"
+        });
+    }
+}
+
+[HttpPost("initialize")]
+public async Task<IActionResult> InitializePayment([FromBody] InitializePaymentDTO dto)
+{
+    var paymentUrl = await _paymentService.InitializeAsync(dto);
+
+    return Ok(new
+    {
+        paymentUrl
+    });
+}
 
     // =======================
     // GET PAYMENT BY ORDER

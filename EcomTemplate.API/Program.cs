@@ -109,11 +109,11 @@ builder.Services.AddScoped<ICustomerCheckoutService, CustomerCheckoutService>();
 builder.Services.AddScoped<IOrderService, CustomerOrderService>(); // customer orders
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();   // shared orders
 
-// ===== GUEST CART & ORDER =====
+// ===== PAYMENT=====
 
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 
-
-
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 
 // Customer
 
