@@ -27,16 +27,19 @@ namespace GrocerySupermarket.WebAPI.Controllers
                 var result = await _checkoutService.PreviewCheckoutAsync(request, customerId);
                 return Ok(result);
             }
-            catch (InvalidOperationException ex)
+            catch
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { error = "Unable to preview" });
             }
         }
 
         [HttpPost("confirm")]
         public async Task<IActionResult> Confirm([FromBody] CheckoutRequestDTO request)
         {
-            if (!User.Identity?.IsAuthenticated ?? true)
+
+            try
+            {
+                 if (!User.Identity?.IsAuthenticated ?? true)
                 return Unauthorized("User must be authenticated for customer checkout.");
 
             var customerId = UserHelper.GetUserId(User);
@@ -44,6 +47,13 @@ namespace GrocerySupermarket.WebAPI.Controllers
 
             var orderId = await _checkoutService.ConfirmCheckoutAsync(request, customerId);
             return Ok(new { orderId });
+            }
+            catch 
+            {
+                
+                return BadRequest(new { error = "Invalid checkout request" });
+            }
+           
         }
     }
 }
