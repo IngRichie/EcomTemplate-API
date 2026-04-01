@@ -28,6 +28,8 @@ public class CustomerProfile
     [MaxLength(30)]
     public string? Phone { get; set; }
 
+    public string Role { get; set; } = "Customer";
+
     // 🖼️ Profile image
     [MaxLength(500)]
     public string? ProfileImageUrl { get; set; }

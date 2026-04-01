@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GrocerySupermarket.WebAPI.Controller;
 
 [ApiController]
-[Authorize]
+[Authorize(Roles = "Customer")]
 [Route("api/[controller]")]
 public class PaymentsController : ControllerBase
 {

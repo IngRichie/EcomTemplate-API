@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using GrocerySupermarket.Application.Interfaces;
 using GrocerySupermarket.Application.DTOs;
 using GrocerySupermarket.Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Authorization;

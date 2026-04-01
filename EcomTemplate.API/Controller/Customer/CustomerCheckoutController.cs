@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GrocerySupermarket.WebAPI.Controllers
 {
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "Customer")]
     [Route("api/checkout")]
     public class CustomerCheckoutController : ControllerBase
     {

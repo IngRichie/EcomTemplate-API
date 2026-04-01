@@ -8,7 +8,7 @@ using EcomTemplate.API.HelperFunctions;
 namespace GrocerySupermarket.WebAPI.Controller;
 
 [ApiController]
-[Authorize]
+[Authorize(Roles = "Customer")]
 [Route("api/cart")]
 public class CustomerCartController : ControllerBase
 {

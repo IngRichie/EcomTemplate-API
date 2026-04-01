@@ -6,7 +6,7 @@ using EcomTemplate.API.HelperFunctions;
 
 
 [ApiController]
-[Authorize]
+[Authorize(Roles = "Customer")]
 [Route("api/customer/profile")]
 public class CustomerProfileController : ControllerBase
 {

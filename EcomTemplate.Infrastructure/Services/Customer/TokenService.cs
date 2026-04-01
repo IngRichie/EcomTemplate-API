@@ -35,15 +35,16 @@ public class TokenService
         var claims = new List<Claim>
         {
             // Primary identity
-            new Claim(JwtRegisteredClaimNames.Sub, profile.CustomerProfileId.ToString()),
-            new Claim(ClaimTypes.NameIdentifier, profile.CustomerProfileId.ToString()),
+            new(JwtRegisteredClaimNames.Sub, profile.CustomerProfileId.ToString()),
+            new(ClaimTypes.NameIdentifier, profile.CustomerProfileId.ToString()),
 
             // User info
-            new Claim(JwtRegisteredClaimNames.Email, profile.Email ?? string.Empty),
+            new(JwtRegisteredClaimNames.Email, profile.Email ?? string.Empty),
+            new(ClaimTypes.Role, profile.Role),
 
             // Token metadata
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(JwtRegisteredClaimNames.Iat,
+            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new(JwtRegisteredClaimNames.Iat,
                 DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(),
                 ClaimValueTypes.Integer64
             )
@@ -54,7 +55,7 @@ public class TokenService
             audience: jwtAudience,
             claims: claims,
             notBefore: DateTime.UtcNow,
-            expires: DateTime.UtcNow.AddMinutes(15), // ⏱ short-lived access token
+            expires: DateTime.UtcNow.AddMinutes(15),
             signingCredentials: credentials
         );
 

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Authorize]
+[Authorize(Roles = "Customer")]
 [Route("api/invoices")]
 public class InvoicesController : ControllerBase
 {
