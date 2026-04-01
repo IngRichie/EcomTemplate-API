@@ -40,6 +40,7 @@ public class AuthService : IAuthService
             LastName  = dto.LastName,
             Email     = dto.Email,
             Phone     = dto.Phone,
+            Role      = "Customer",
             CreatedAt = DateTime.UtcNow
         };
 
@@ -144,14 +145,15 @@ public class AuthService : IAuthService
         {
             AccessToken = accessToken,
             RefreshToken = refreshToken.Token,
-            ExpiresIn = 3600, // 1 hour (stub)
+            ExpiresIn = 3600, 
             Customer = new CustomerDTO
             {
-                // CustomerId = profile.CustomerProfileId,
+                
                 FirstName = profile.FirstName ?? string.Empty,
                 LastName = profile.LastName ?? string.Empty,
                 Email = profile.Email ?? string.Empty,
                 Phone = profile.Phone ?? string.Empty,
+                Role = profile.Role,
                 CreatedAt = profile.CreatedAt
             }
         };

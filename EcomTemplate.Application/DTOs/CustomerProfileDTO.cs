@@ -9,6 +9,7 @@ public class UpdateCustomerProfileDTO
 
     public string? Email { get; set; }
     public string? Phone { get; set; }
+    public required string Role { get; set; }
 
     [MaxLength(500)]
     public string? ProfileImageUrl { get; set; }

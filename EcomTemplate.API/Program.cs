@@ -17,6 +17,7 @@ using Serilog;
 using StackExchange.Redis;
 using System.Text;
 using CloudinaryDotNet;
+using System.Security.Claims;
 
 // =============================================================
 // LOAD .env (EXPLICIT PATH – SAFE)
@@ -156,7 +157,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(jwtKey)
-            )
+            ),
+
+            // 🔥 THIS IS THE MISSING PIECE
+            RoleClaimType = ClaimTypes.Role
         };
     });
 
