@@ -4,7 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace EcomTemplate.Infrastructure.Security;
+namespace EcomTemplate.Infrastructure.Services.Admin;
 
 public class AdminTokenService
 {

@@ -18,6 +18,9 @@ using StackExchange.Redis;
 using System.Text;
 using CloudinaryDotNet;
 using System.Security.Claims;
+using GrocerySupermarket.Infrastructure.Services.Admin;
+using GrocerySupermarket.Application.Interfaces.Admin;
+using EcomTemplate.Infrastructure.Services.Admin;
 
 // =============================================================
 // LOAD .env (EXPLICIT PATH – SAFE)
@@ -121,11 +124,9 @@ builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<IOrderService, CustomerOrderService>();
 builder.Services.AddScoped<ICustomerCartRepository, CustomerCartRepository>();
 
-// Guest
-
-
-
-
+// Admin
+builder.Services.AddScoped<IAdminAuthService, AdminAuthService>();
+builder.Services.AddScoped<AdminTokenService>();
 
 
 
