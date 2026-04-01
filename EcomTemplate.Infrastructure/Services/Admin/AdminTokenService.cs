@@ -1,3 +1,4 @@
+using GrocerySupermarket.Domain.Entities;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -7,7 +8,7 @@ namespace EcomTemplate.Infrastructure.Security;
 
 public class AdminTokenService
 {
-    public string CreateAdminAccessToken(Guid adminId, string email)
+    public string CreateAdminAccessToken(Guid adminId, string email, string role)
     {
         var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY")
             ?? throw new InvalidOperationException("JWT_KEY missing");
@@ -29,22 +30,15 @@ public class AdminTokenService
 
         var claims = new List<Claim>
         {
-            // Identity
             new(JwtRegisteredClaimNames.Sub, adminId.ToString()),
             new(ClaimTypes.NameIdentifier, adminId.ToString()),
-
-            // Info
             new(JwtRegisteredClaimNames.Email, email),
+            new(ClaimTypes.Role, role),
 
-           
-            new(ClaimTypes.Role, "Admin"),
-
-            // Metadata
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new(JwtRegisteredClaimNames.Iat,
                 DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(),
-                ClaimValueTypes.Integer64
-            )
+                ClaimValueTypes.Integer64)
         };
 
         var token = new JwtSecurityToken(
@@ -52,10 +46,24 @@ public class AdminTokenService
             audience: jwtAudience,
             claims: claims,
             notBefore: DateTime.UtcNow,
-            expires: DateTime.UtcNow.AddMinutes(30), // Admin can have longer
+            expires: DateTime.UtcNow.AddMinutes(30),
             signingCredentials: credentials
         );
 
         return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+    public RefreshToken CreateRefreshToken(Guid adminId, bool rememberMe)
+    {
+        return new RefreshToken
+        {
+            Token = Guid.NewGuid().ToString(),
+            AdminId = adminId,
+            CreatedAt = DateTime.UtcNow,
+            ExpiresAt = rememberMe
+                ? DateTime.UtcNow.AddDays(30)
+                : DateTime.UtcNow.AddDays(7),
+            IsRevoked = false
+        };
     }
 }

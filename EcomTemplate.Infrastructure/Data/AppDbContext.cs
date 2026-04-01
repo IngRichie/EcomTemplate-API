@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using GrocerySupermarket.Domain.Entities;
+using GrocerySupermarket.Domain.Entities.Admin;
 
 namespace GrocerySupermarket.Infrastructure.Data;
 
@@ -48,18 +49,12 @@ public class AppDbContext : DbContext
     public DbSet<HomeSection> HomeSections => Set<HomeSection>();
 
     public DbSet<HomeSectionProduct> HomeSectionProducts => Set<HomeSectionProduct>();
+    public DbSet<AdminProfile> AdminProfile => Set<AdminProfile>();
 
-    // =======================
-    // INVENTORY
-    // =======================
-
-
-    // =======================
-    // REFERRALS
-    // =======================
+    
 
 
-            public DbSet<Payment> Payments => Set<Payment>();
+public DbSet<Payment> Payments => Set<Payment>();
 public DbSet<ProductImage> ProductImages => Set<ProductImage>();
 public DbSet<ProductReview> ProductReviews => Set<ProductReview>();
 

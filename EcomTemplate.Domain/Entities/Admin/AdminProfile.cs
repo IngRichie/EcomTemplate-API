@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace GrocerySupermarket.Domain.Entities;
+namespace GrocerySupermarket.Domain.Entities.Admin;
 
-public class Admin
+public class AdminProfile
 {
     [Key]
     public Guid AdminId { get; set; } = Guid.NewGuid();
