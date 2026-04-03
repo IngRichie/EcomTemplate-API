@@ -21,6 +21,8 @@ using System.Security.Claims;
 using GrocerySupermarket.Infrastructure.Services.Admin;
 using GrocerySupermarket.Application.Interfaces.Admin;
 using EcomTemplate.Infrastructure.Services.Admin;
+using GrocerySupermarket.Infrastructure.Repositories.Admin;
+using GrocerySupermarket.Application.Interfaces.Service.Admin;
 
 // =============================================================
 // LOAD .env (EXPLICIT PATH – SAFE)
@@ -127,6 +129,9 @@ builder.Services.AddScoped<ICustomerCartRepository, CustomerCartRepository>();
 // Admin
 builder.Services.AddScoped<IAdminAuthService, AdminAuthService>();
 builder.Services.AddScoped<AdminTokenService>();
+
+builder.Services.AddScoped<IDashboardRespository, DashboardRespository>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
 
 
 

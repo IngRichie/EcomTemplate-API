@@ -12,7 +12,7 @@ public class RefreshToken
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid RefreshTokenId { get; set; }
 
-    [Required]
+  
     public Guid? CustomerProfileId { get; set; }
     public Guid? AdminId { get; set; }
 

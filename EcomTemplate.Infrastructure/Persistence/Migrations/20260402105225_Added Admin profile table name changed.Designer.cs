@@ -3,6 +3,7 @@ using System;
 using GrocerySupermarket.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EcomTemplate.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260402105225_Added Admin profile table name changed")]
+    partial class AddedAdminprofiletablenamechanged
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -721,7 +724,7 @@ namespace EcomTemplate.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid?>("CustomerProfileId")
+                    b.Property<Guid>("CustomerProfileId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("ExpiresAt")
@@ -898,7 +901,9 @@ namespace EcomTemplate.Infrastructure.Persistence.Migrations
 
                     b.HasOne("GrocerySupermarket.Domain.Entities.CustomerProfile", "CustomerProfile")
                         .WithMany("RefreshTokens")
-                        .HasForeignKey("CustomerProfileId");
+                        .HasForeignKey("CustomerProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("AdminProfile");
 
