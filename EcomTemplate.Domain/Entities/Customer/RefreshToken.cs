@@ -1,9 +1,9 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using GrocerySupermarket.Domain.Entities.Admin;
+using EcomTemplate.Domain.Entities.Admin;
 
-namespace GrocerySupermarket.Domain.Entities;
+namespace EcomTemplate.Domain.Entities;
 
 [Table("refresh_tokens")]
 public class RefreshToken

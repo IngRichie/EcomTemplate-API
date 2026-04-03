@@ -1,8 +1,8 @@
 using AutoMapper;
-using GrocerySupermarket.Application.DTOs;
-using GrocerySupermarket.Domain.Entities;
+using EcomTemplate.Application.DTOs;
+using EcomTemplate.Domain.Entities;
 
-namespace GrocerySupermarket.Application.Mapping;
+namespace EcomTemplate.Application.Mapping;
 
 public class AutoMapperProfile : Profile
 {

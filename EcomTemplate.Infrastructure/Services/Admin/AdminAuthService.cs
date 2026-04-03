@@ -1,14 +1,14 @@
 using EcomTemplate.Infrastructure.Services.Admin;
-using GrocerySupermarket.Application.DTOs.AdminDTOs;
-using GrocerySupermarket.Application.Interfaces.Admin;
-using GrocerySupermarket.Domain.Entities;
-using GrocerySupermarket.Domain.Entities.Admin;
-using GrocerySupermarket.Infrastructure.Data;
-using GrocerySupermarket.Infrastructure.Exceptions;
+using EcomTemplate.Application.DTOs.AdminDTOs;
+using EcomTemplate.Application.Interfaces.Admin;
+using EcomTemplate.Domain.Entities;
+using EcomTemplate.Domain.Entities.Admin;
+using EcomTemplate.Infrastructure.Data;
+using EcomTemplate.Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace GrocerySupermarket.Infrastructure.Services.Admin;
+namespace EcomTemplate.Infrastructure.Services.Admin;
 
 public class AdminAuthService : IAdminAuthService
 {

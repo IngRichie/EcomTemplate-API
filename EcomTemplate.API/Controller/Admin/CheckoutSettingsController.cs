@@ -1,6 +1,6 @@
-using GrocerySupermarket.Domain.Entities;
-using GrocerySupermarket.Infrastructure.Interfaces;
-using GrocerySupermarket.Infrastructure.Repositories;
+using EcomTemplate.Domain.Entities;
+using EcomTemplate.Infrastructure.Interfaces;
+using EcomTemplate.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

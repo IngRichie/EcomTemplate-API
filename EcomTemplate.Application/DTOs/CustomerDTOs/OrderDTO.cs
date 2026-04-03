@@ -1,4 +1,4 @@
-namespace GrocerySupermarket.Application.DTOs;
+namespace EcomTemplate.Application.DTOs;
 public class OrderDTO { public System.Guid Id {get;set;}
 public decimal TotalAmount {get;set;}
 public string Status {get;set;} = string.Empty;

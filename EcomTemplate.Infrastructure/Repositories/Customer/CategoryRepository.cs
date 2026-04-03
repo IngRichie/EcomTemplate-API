@@ -1,11 +1,11 @@
-using GrocerySupermarket.Application.DTOs;
-using GrocerySupermarket.Application.Interfaces;
-using GrocerySupermarket.Domain.Entities;
-using GrocerySupermarket.Infrastructure.Data;
+using EcomTemplate.Application.DTOs;
+using EcomTemplate.Application.Interfaces;
+using EcomTemplate.Domain.Entities;
+using EcomTemplate.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace GrocerySupermarket.Infrastructure.Repositories;
+namespace EcomTemplate.Infrastructure.Repositories;
 
 public class CategoryRepository : ICategoryRepository
 {

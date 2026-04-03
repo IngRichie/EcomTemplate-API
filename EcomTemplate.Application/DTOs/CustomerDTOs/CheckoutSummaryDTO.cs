@@ -1,4 +1,4 @@
-namespace GrocerySupermarket.Application.DTOs;
+namespace EcomTemplate.Application.DTOs;
 public class CheckoutSummaryDTO
 {
     public decimal SubTotal { get; set; }

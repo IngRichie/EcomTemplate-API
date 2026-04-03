@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GrocerySupermarket.Domain.Entities;
+namespace EcomTemplate.Domain.Entities;
 
 [Table("customer_profiles")]
 public class CustomerProfile

@@ -1,0 +1,1 @@
+namespace EcomTemplate.Application.Interfaces.Admin;

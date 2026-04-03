@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using GrocerySupermarket.Domain.Entities;
-using GrocerySupermarket.Domain.Entities.Admin;
+using EcomTemplate.Domain.Entities;
+using EcomTemplate.Domain.Entities.Admin;
 
-namespace GrocerySupermarket.Infrastructure.Data;
+namespace EcomTemplate.Infrastructure.Data;
 
 public class AppDbContext : DbContext
 {

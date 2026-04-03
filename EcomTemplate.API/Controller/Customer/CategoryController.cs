@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using GrocerySupermarket.Application.Interfaces;
-using GrocerySupermarket.Application.DTOs;
+using EcomTemplate.Application.Interfaces;
+using EcomTemplate.Application.DTOs;
 using AutoMapper;
 
-namespace GrocerySupermarket.WebAPI.Controller;
+namespace EcomTemplate.WebAPI.Controller;
 
 [ApiController]
 [Route("api/[controller]")]

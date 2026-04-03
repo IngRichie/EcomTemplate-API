@@ -1,4 +1,4 @@
-namespace GrocerySupermarket.Application.DTOs.AdminDTOs;
+namespace EcomTemplate.Application.DTOs.AdminDTOs;
 
 
 public class OrdersStatDTO

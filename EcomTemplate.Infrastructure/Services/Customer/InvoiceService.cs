@@ -1,9 +1,9 @@
-using GrocerySupermarket.Application.DTOs;
-using GrocerySupermarket.Application.Interfaces;
-using GrocerySupermarket.Domain.Entities;
+using EcomTemplate.Application.DTOs;
+using EcomTemplate.Application.Interfaces;
+using EcomTemplate.Domain.Entities;
 using AutoMapper;
 
-namespace GrocerySupermarket.Infrastructure.Repositories;
+namespace EcomTemplate.Infrastructure.Repositories;
 
 public class InvoiceService : IInvoiceService
 {

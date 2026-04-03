@@ -1,11 +1,11 @@
-using GrocerySupermarket.Application.DTOs;
-using GrocerySupermarket.Domain.Entities;
+using EcomTemplate.Application.DTOs;
+using EcomTemplate.Domain.Entities;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace GrocerySupermarket.Infrastructure.Security;
+namespace EcomTemplate.Infrastructure.Security;
 
 public class TokenService
 {

@@ -1,4 +1,4 @@
-using GrocerySupermarket.Application.Interfaces;
+using EcomTemplate.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

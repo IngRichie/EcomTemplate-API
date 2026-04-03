@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace GrocerySupermarket.Application.DTOs;
+namespace EcomTemplate.Application.DTOs;
 
 public class CreatePaymentDto
 {

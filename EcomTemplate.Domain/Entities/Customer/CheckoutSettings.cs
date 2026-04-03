@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
-namespace GrocerySupermarket.Domain.Entities;
+namespace EcomTemplate.Domain.Entities;
 
 [Table("checkout_settings")]
 public class CheckoutSettings

@@ -1,7 +1,7 @@
 using AutoMapper;
 using EcomTemplate.API.HelperFunctions;
-using GrocerySupermarket.Application.DTOs;
-using GrocerySupermarket.Application.Interfaces;
+using EcomTemplate.Application.DTOs;
+using EcomTemplate.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

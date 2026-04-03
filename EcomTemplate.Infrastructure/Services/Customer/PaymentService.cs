@@ -1,8 +1,8 @@
-using GrocerySupermarket.Application.DTOs;
-using GrocerySupermarket.Application.Interfaces;
-using GrocerySupermarket.Domain.Entities;
+using EcomTemplate.Application.DTOs;
+using EcomTemplate.Application.Interfaces;
+using EcomTemplate.Domain.Entities;
 
-namespace GrocerySupermarket.Infrastructure.Services;
+namespace EcomTemplate.Infrastructure.Services;
 
 public class PaymentService : IPaymentService
 {

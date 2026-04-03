@@ -1,8 +1,8 @@
-using GrocerySupermarket.Application.Interfaces.Admin;
-using GrocerySupermarket.Infrastructure.Data;
+using EcomTemplate.Application.Interfaces.Admin;
+using EcomTemplate.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace GrocerySupermarket.Infrastructure.Repositories.Admin;
+namespace EcomTemplate.Infrastructure.Repositories.Admin;
 
 public class DashboardRespository : IDashboardRespository
 {

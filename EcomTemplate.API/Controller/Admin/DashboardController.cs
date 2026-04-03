@@ -1,9 +1,9 @@
-using GrocerySupermarket.Application.Interfaces.Admin;
-using GrocerySupermarket.Application.Interfaces.Service.Admin;
+using EcomTemplate.Application.Interfaces.Admin;
+using EcomTemplate.Application.Interfaces.Service.Admin;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GrocerySupermarket.API.Controllers;
+namespace EcomTemplate.API.Controllers;
 
 [ApiController]
 [Route("api/admin/dashboard")]

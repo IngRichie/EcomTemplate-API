@@ -1,14 +1,14 @@
 using AspNetCoreRateLimit;
 using DotNetEnv;
-using GrocerySupermarket.Application.Interfaces;
-using GrocerySupermarket.Application.Mapping;
-using GrocerySupermarket.Domain.Entities;
-using GrocerySupermarket.Infrastructure.Data;
-using GrocerySupermarket.Infrastructure.Options;
-using GrocerySupermarket.Infrastructure.Repositories;
-using GrocerySupermarket.Infrastructure.Security;
-using GrocerySupermarket.Infrastructure.Services;
-using GrocerySupermarket.WebAPI.Middleware;
+using EcomTemplate.Application.Interfaces;
+using EcomTemplate.Application.Mapping;
+using EcomTemplate.Domain.Entities;
+using EcomTemplate.Infrastructure.Data;
+using EcomTemplate.Infrastructure.Options;
+using EcomTemplate.Infrastructure.Repositories;
+using EcomTemplate.Infrastructure.Security;
+using EcomTemplate.Infrastructure.Services;
+using EcomTemplate.WebAPI.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -18,11 +18,11 @@ using StackExchange.Redis;
 using System.Text;
 using CloudinaryDotNet;
 using System.Security.Claims;
-using GrocerySupermarket.Infrastructure.Services.Admin;
-using GrocerySupermarket.Application.Interfaces.Admin;
 using EcomTemplate.Infrastructure.Services.Admin;
-using GrocerySupermarket.Infrastructure.Repositories.Admin;
-using GrocerySupermarket.Application.Interfaces.Service.Admin;
+using EcomTemplate.Application.Interfaces.Admin;
+using EcomTemplate.Infrastructure.Services.Admin;
+using EcomTemplate.Infrastructure.Repositories.Admin;
+using EcomTemplate.Application.Interfaces.Service.Admin;
 
 // =============================================================
 // LOAD .env (EXPLICIT PATH – SAFE)

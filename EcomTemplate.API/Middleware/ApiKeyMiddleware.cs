@@ -1,4 +1,4 @@
-namespace GrocerySupermarket.WebAPI.Middleware;
+namespace EcomTemplate.WebAPI.Middleware;
 
 public class ApiKeyMiddleware
 {

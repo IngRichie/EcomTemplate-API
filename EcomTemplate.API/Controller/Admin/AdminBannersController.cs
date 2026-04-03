@@ -1,11 +1,11 @@
 using AutoMapper;
-using GrocerySupermarket.Application.DTOs;
-using GrocerySupermarket.Application.Interfaces;
-using GrocerySupermarket.Domain.Entities;
+using EcomTemplate.Application.DTOs;
+using EcomTemplate.Application.Interfaces;
+using EcomTemplate.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GrocerySupermarket.WebAPI.Controller.Admin;
+namespace EcomTemplate.WebAPI.Controller.Admin;
 
 [ApiController]
 [Authorize(Roles = "Admin")]

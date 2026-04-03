@@ -1,10 +1,10 @@
-using GrocerySupermarket.Application.Interfaces;
-using GrocerySupermarket.Domain.Entities;
-using GrocerySupermarket.Infrastructure.Data;
+using EcomTemplate.Application.Interfaces;
+using EcomTemplate.Domain.Entities;
+using EcomTemplate.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace GrocerySupermarket.Infrastructure.Repositories;
+namespace EcomTemplate.Infrastructure.Repositories;
 public class CustomerProfileRepository : ICustomerProfileRepository
 {
     private readonly AppDbContext _db;

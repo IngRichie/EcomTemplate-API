@@ -1,7 +1,7 @@
 using StackExchange.Redis;
 using System.Text.Json;
 
-namespace GrocerySupermarket.Infrastructure.Data
+namespace EcomTemplate.Infrastructure.Data
 {
     public class CacheService
     {

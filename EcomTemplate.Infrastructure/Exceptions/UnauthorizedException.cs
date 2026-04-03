@@ -1,4 +1,4 @@
-namespace GrocerySupermarket.Infrastructure.Exceptions;
+namespace EcomTemplate.Infrastructure.Exceptions;
 public class UnauthorizedException : Exception
 {
     public UnauthorizedException(string message) : base(message) { }

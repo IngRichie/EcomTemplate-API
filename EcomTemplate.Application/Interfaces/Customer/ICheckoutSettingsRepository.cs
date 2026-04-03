@@ -1,6 +1,6 @@
-using GrocerySupermarket.Domain.Entities;
+using EcomTemplate.Domain.Entities;
 
-namespace GrocerySupermarket.Infrastructure.Interfaces;
+namespace EcomTemplate.Infrastructure.Interfaces;
 public interface ICheckoutSettingsRepository
 {
     Task<CheckoutSettings> GetOrCreateSettings();

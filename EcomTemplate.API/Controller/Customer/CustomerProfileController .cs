@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using GrocerySupermarket.Application.DTOs;
+using EcomTemplate.Application.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using CloudinaryDotNet;
 using EcomTemplate.API.HelperFunctions;

@@ -1,6 +1,6 @@
-using GrocerySupermarket.Domain.Entities;
+using EcomTemplate.Domain.Entities;
 
-namespace GrocerySupermarket.Application.Interfaces;
+namespace EcomTemplate.Application.Interfaces;
 
 public interface ICustomerCartRepository
 {

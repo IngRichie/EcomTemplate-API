@@ -1,4 +1,4 @@
-using GrocerySupermarket.Application.DTOs;
+using EcomTemplate.Application.DTOs;
 
 public interface IAuthService
 {

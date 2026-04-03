@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GrocerySupermarket.Domain.Entities.Admin;
+namespace EcomTemplate.Domain.Entities.Admin;
 
 [Table("admin_profile")]
 public class AdminProfile

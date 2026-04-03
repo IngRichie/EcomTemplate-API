@@ -1,11 +1,11 @@
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
-using GrocerySupermarket.Domain.Entities;
-using GrocerySupermarket.Infrastructure.Data;
-using GrocerySupermarket.Infrastructure.Interfaces;
-using GrocerySupermarket.Infrastructure.Options;
+using EcomTemplate.Domain.Entities;
+using EcomTemplate.Infrastructure.Data;
+using EcomTemplate.Infrastructure.Interfaces;
+using EcomTemplate.Infrastructure.Options;
 
-namespace GrocerySupermarket.Infrastructure.Repositories;
+namespace EcomTemplate.Infrastructure.Repositories;
 
 
 

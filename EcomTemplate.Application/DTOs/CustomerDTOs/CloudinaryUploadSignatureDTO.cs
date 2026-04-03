@@ -1,5 +1,5 @@
 
-namespace GrocerySupermarket.Application.DTOs;
+namespace EcomTemplate.Application.DTOs;
 public class CloudinaryUploadSignatureDTO
 {
     public string Signature { get; set; } = string.Empty;

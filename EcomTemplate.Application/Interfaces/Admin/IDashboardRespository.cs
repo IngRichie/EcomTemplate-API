@@ -1,4 +1,4 @@
-namespace GrocerySupermarket.Application.Interfaces.Admin;
+namespace EcomTemplate.Application.Interfaces.Admin;
 
 public interface IDashboardRespository
 {

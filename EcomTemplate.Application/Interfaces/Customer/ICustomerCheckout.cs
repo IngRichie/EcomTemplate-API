@@ -1,7 +1,7 @@
-using GrocerySupermarket.Application.DTOs;
+using EcomTemplate.Application.DTOs;
 
 
-namespace GrocerySupermarket.Application.Interfaces;
+namespace EcomTemplate.Application.Interfaces;
 
 public interface ICustomerCheckoutService
 {

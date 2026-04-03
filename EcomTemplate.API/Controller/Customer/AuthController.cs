@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using GrocerySupermarket.Application.DTOs;
-using GrocerySupermarket.Infrastructure.Exceptions;
+using EcomTemplate.Application.DTOs;
+using EcomTemplate.Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 
 [ApiController]

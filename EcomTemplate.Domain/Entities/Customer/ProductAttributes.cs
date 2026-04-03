@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GrocerySupermarket.Domain.Entities
+namespace EcomTemplate.Domain.Entities
 {
     [Table("product_variant_attributes")]
     public class ProductVariantAttribute

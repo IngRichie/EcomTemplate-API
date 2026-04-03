@@ -1,9 +1,9 @@
-using GrocerySupermarket.Application.DTOs.AdminDTOs;
-using GrocerySupermarket.Application.Interfaces.Admin;
-using GrocerySupermarket.Infrastructure.Exceptions;
+using EcomTemplate.Application.DTOs.AdminDTOs;
+using EcomTemplate.Application.Interfaces.Admin;
+using EcomTemplate.Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GrocerySupermarket.API.Controllers.Admin;
+namespace EcomTemplate.API.Controllers.Admin;
 
 [ApiController]
 [Route("api/admin/auth")]

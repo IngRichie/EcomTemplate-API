@@ -1,5 +1,5 @@
 
-namespace GrocerySupermarket.Infrastructure.Options;
+namespace EcomTemplate.Infrastructure.Options;
 public class CheckoutDefaultsOptions
 {
     public decimal TaxPercentage { get; set; }

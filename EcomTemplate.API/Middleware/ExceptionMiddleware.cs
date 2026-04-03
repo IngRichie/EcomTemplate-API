@@ -1,4 +1,4 @@
-using GrocerySupermarket.Infrastructure.Exceptions;
+using EcomTemplate.Infrastructure.Exceptions;
 
 public class ExceptionMiddleware
 {

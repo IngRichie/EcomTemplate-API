@@ -1,8 +1,8 @@
-using GrocerySupermarket.Application.DTOs.AdminDTOs;
-using GrocerySupermarket.Application.Interfaces.Admin;
+using EcomTemplate.Application.DTOs.AdminDTOs;
+using EcomTemplate.Application.Interfaces.Admin;
 using EcomTemplate.API.HelperFunctions;
 
-namespace  GrocerySupermarket.Application.Interfaces.Service.Admin;
+namespace  EcomTemplate.Application.Interfaces.Service.Admin;
 
 public class DashboardService : IDashboardService
 {

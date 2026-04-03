@@ -1,13 +1,13 @@
-using GrocerySupermarket.Application.DTOs;
-using GrocerySupermarket.Application.Interfaces;
-using GrocerySupermarket.Domain.Entities;
-using GrocerySupermarket.Infrastructure.Data;
-using GrocerySupermarket.Infrastructure.Exceptions;
-using GrocerySupermarket.Infrastructure.Security;
+using EcomTemplate.Application.DTOs;
+using EcomTemplate.Application.Interfaces;
+using EcomTemplate.Domain.Entities;
+using EcomTemplate.Infrastructure.Data;
+using EcomTemplate.Infrastructure.Exceptions;
+using EcomTemplate.Infrastructure.Security;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace GrocerySupermarket.Infrastructure.Services;
+namespace EcomTemplate.Infrastructure.Services;
 
 public class AuthService : IAuthService
 {

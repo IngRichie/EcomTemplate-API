@@ -1,4 +1,4 @@
-namespace GrocerySupermarket.Application.DTOs; 
+namespace EcomTemplate.Application.DTOs; 
 public class InitializePaymentDTO
 {
     public Guid OrderId { get; set; }

@@ -1,6 +1,6 @@
-using GrocerySupermarket.Application.DTOs.AdminDTOs;
+using EcomTemplate.Application.DTOs.AdminDTOs;
 
-namespace GrocerySupermarket.Application.Interfaces.Admin;
+namespace EcomTemplate.Application.Interfaces.Admin;
 
 
 

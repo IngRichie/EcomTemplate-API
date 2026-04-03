@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
-using GrocerySupermarket.Application.Interfaces;
-using GrocerySupermarket.Application.DTOs;
+using EcomTemplate.Application.Interfaces;
+using EcomTemplate.Application.DTOs;
 using EcomTemplate.API.HelperFunctions;
 
-namespace GrocerySupermarket.WebAPI.Controller;
+namespace EcomTemplate.WebAPI.Controller;
 
 [ApiController]
 [Authorize(Roles = "Customer")]

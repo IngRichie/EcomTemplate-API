@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using GrocerySupermarket.Domain.Entities;
-using GrocerySupermarket.Application.DTOs;
-namespace GrocerySupermarket.Application.Interfaces;
+using EcomTemplate.Domain.Entities;
+using EcomTemplate.Application.DTOs;
+namespace EcomTemplate.Application.Interfaces;
 
 public interface IProductRepository
 {
