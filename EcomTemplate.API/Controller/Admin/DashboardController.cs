@@ -1,5 +1,4 @@
 using EcomTemplate.Application.Interfaces.Admin;
-using EcomTemplate.Application.Interfaces.Service.Admin;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

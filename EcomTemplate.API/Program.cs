@@ -1,31 +1,32 @@
 using AspNetCoreRateLimit;
 using DotNetEnv;
 using EcomTemplate.Application.Interfaces;
+using EcomTemplate.Application.Interfaces.Admin;
+using EcomTemplate.Application.Interfaces.Service.Admin;
 using EcomTemplate.Application.Mapping;
 using EcomTemplate.Domain.Entities;
 using EcomTemplate.Infrastructure.Data;
 using EcomTemplate.Infrastructure.Options;
 using EcomTemplate.Infrastructure.Repositories;
+using EcomTemplate.Infrastructure.Repositories.Admin;
 using EcomTemplate.Infrastructure.Security;
 using EcomTemplate.Infrastructure.Services;
+using EcomTemplate.Infrastructure.Services.Admin;
 using EcomTemplate.WebAPI.Middleware;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+
 using Serilog;
 using StackExchange.Redis;
+using System.Security.Claims;
 using System.Text;
 using CloudinaryDotNet;
-using System.Security.Claims;
-using EcomTemplate.Infrastructure.Services.Admin;
-using EcomTemplate.Application.Interfaces.Admin;
-using EcomTemplate.Infrastructure.Services.Admin;
-using EcomTemplate.Infrastructure.Repositories.Admin;
-using EcomTemplate.Application.Interfaces.Service.Admin;
 
 // =============================================================
-// LOAD .env (EXPLICIT PATH – SAFE)
+// LOAD ENV
 // =============================================================
 var envPath = Path.Combine(Directory.GetCurrentDirectory(), ".env");
 if (File.Exists(envPath))
@@ -33,19 +34,12 @@ if (File.Exists(envPath))
     Env.Load(envPath);
 }
 
-
-
-
-
-// =============================================================
-// HELPERS
-// =============================================================
 static string RequireEnv(string key) =>
     Environment.GetEnvironmentVariable(key)
     ?? throw new InvalidOperationException($"{key} is missing");
 
 // =============================================================
-// SERILOG
+// LOGGING
 // =============================================================
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -56,7 +50,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog();
 
 // =============================================================
-// DATABASE (POSTGRESQL)
+// DATABASE
 // =============================================================
 var connectionString =
     $"Host={RequireEnv("DB_HOST")};" +
@@ -69,15 +63,17 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString)
 );
 
+// =============================================================
+// CLOUDINARY
+// =============================================================
 builder.Services.AddSingleton(_ =>
 {
     return new Cloudinary(new Account(
-        Environment.GetEnvironmentVariable("CLOUDINARY_CLOUD_NAME"),
-        Environment.GetEnvironmentVariable("CLOUDINARY_API_KEY"),
-        Environment.GetEnvironmentVariable("CLOUDINARY_API_SECRET")
+        RequireEnv("CLOUDINARY_CLOUD_NAME"),
+        RequireEnv("CLOUDINARY_API_KEY"),
+        RequireEnv("CLOUDINARY_API_SECRET")
     ));
 });
-
 
 // =============================================================
 // REDIS
@@ -96,37 +92,29 @@ builder.Services.AddSingleton<CacheService>();
 // =============================================================
 // DEPENDENCY INJECTION
 // =============================================================
+
 // ===== PRODUCT & CATEGORY =====
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-
 builder.Services.AddScoped<IBannerRepository, BannerRepository>();
 
-// ===== AUTH & PROFILE =====
+// ===== AUTH (CUSTOMER) =====
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<CustomerProfileService>();
 builder.Services.AddScoped<ICustomerProfileRepository, CustomerProfileRepository>();
 
-
 // ===== CUSTOMER CART & ORDER =====
 builder.Services.AddScoped<ICustomerCartRepository, CustomerCartRepository>();
 builder.Services.AddScoped<ICustomerCheckoutService, CustomerCheckoutService>();
-builder.Services.AddScoped<IOrderService, CustomerOrderService>(); // customer orders
-builder.Services.AddScoped<IOrderRepository, OrderRepository>();   // shared orders
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderService, CustomerOrderService>();
 
-// ===== PAYMENT=====
-
+// ===== PAYMENT =====
 builder.Services.AddScoped<IPaymentService, PaymentService>();
-
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 
-// Customer
-
-builder.Services.AddScoped<IOrderService, CustomerOrderService>();
-builder.Services.AddScoped<ICustomerCartRepository, CustomerCartRepository>();
-
-// Admin
+// ===== ADMIN =====
 builder.Services.AddScoped<IAdminAuthService, AdminAuthService>();
 builder.Services.AddScoped<AdminTokenService>();
 
@@ -134,15 +122,18 @@ builder.Services.AddScoped<IDashboardRespository, DashboardRespository>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
 
 
+builder.Services.AddScoped<IAddProducts, AddProducts>();
 
+// ===== AUTOMAPPER =====
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 
+// ===== OPTIONS =====
 builder.Services.Configure<CheckoutDefaultsOptions>(
-    builder.Configuration.GetSection("CheckoutSettings"));
-
+    builder.Configuration.GetSection("CheckoutSettings")
+);
 
 // =============================================================
-// JWT AUTHENTICATION (USER AUTH)
+// JWT AUTHENTICATION
 // =============================================================
 var jwtKey = RequireEnv("JWT_KEY");
 var jwtIssuer = RequireEnv("JWT_ISSUER");
@@ -165,7 +156,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 Encoding.UTF8.GetBytes(jwtKey)
             ),
 
-            // 🔥 THIS IS THE MISSING PIECE
             RoleClaimType = ClaimTypes.Role
         };
     });
@@ -174,6 +164,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // RATE LIMITING
 // =============================================================
 builder.Services.AddMemoryCache();
+
 builder.Services.Configure<IpRateLimitOptions>(options =>
 {
     options.GeneralRules = new List<RateLimitRule>
@@ -186,6 +177,7 @@ builder.Services.Configure<IpRateLimitOptions>(options =>
         }
     };
 });
+
 builder.Services.AddInMemoryRateLimiting();
 builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 
@@ -195,9 +187,10 @@ builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>()
 builder.Services.AddControllers();
 
 // =============================================================
-// SWAGGER (JWT + API KEY SUPPORT)
+// SWAGGER
 // =============================================================
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
@@ -221,8 +214,7 @@ builder.Services.AddSwaggerGen(options =>
     {
         Name = "X-API-KEY",
         Type = SecuritySchemeType.ApiKey,
-        In = ParameterLocation.Header,
-        Description = "API Key required for all protected endpoints"
+        In = ParameterLocation.Header
     });
 
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -252,34 +244,36 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-
+// =============================================================
+// CORS
+// =============================================================
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend",
-        policy =>
-        {
-            policy.WithOrigins("http://localhost:3001")
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-        });
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:3001")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
 });
+
 // =============================================================
 // BUILD APP
 // =============================================================
 var app = builder.Build();
 
 // =============================================================
-// MIDDLEWARE PIPELINE (PRODUCTION ORDER)
+// MIDDLEWARE
 // =============================================================
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 
     app.UseSwagger();
-    app.UseSwaggerUI(options =>
+    app.UseSwaggerUI(c =>
     {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "EcomTemplate API v1");
-        options.RoutePrefix = string.Empty;
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "EcomTemplate API v1");
+        c.RoutePrefix = string.Empty;
     });
 }
 else
@@ -288,17 +282,13 @@ else
     app.UseHttpsRedirection();
 }
 
-
-
 app.UseCors("AllowFrontend");
-
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseIpRateLimiting();
 
-// 🔐 API KEY PROTECTION (AUTH ROUTES WHITELISTED INSIDE MIDDLEWARE)
 app.UseMiddleware<ApiKeyMiddleware>();
 
 app.MapControllers();
