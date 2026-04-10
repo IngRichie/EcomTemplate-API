@@ -11,36 +11,74 @@ public class AutoMapperProfile : Profile
         // =======================
         // PRODUCT (FULL GRAPH)
         // =======================
+
         CreateMap<Product, ProductDTO>()
-    .ForMember(d => d.CategoryName,
-        o => o.MapFrom(s => s.Category.Name));
+            .ForMember(d => d.CategoryName,
+                o => o.MapFrom(s => s.Category.Name))
+            .ReverseMap()
+            .ForMember(d => d.Category, o => o.Ignore()); // 🔥 prevent navigation issues
 
+        // =======================
+        // PRODUCT IMAGES
+        // =======================
 
+        CreateMap<ProductImage, ProductImageDTO>()
+            .ForMember(d => d.ImageId,
+                o => o.MapFrom(s => s.ProductImageId))
+            .ForMember(d => d.Url,
+                o => o.MapFrom(s => s.ImageUrl))
+            .ReverseMap()
+            .ForMember(d => d.ProductImageId,
+                o => o.MapFrom(s => s.ImageId))
+            .ForMember(d => d.ImageUrl,
+                o => o.MapFrom(s => s.Url))
+            .ForMember(d => d.Product, o => o.Ignore());
 
-       CreateMap<ProductImage, ProductImageDTO>()
-    .ForMember(d => d.ImageId, o => o.MapFrom(s => s.ProductImageId))
-    .ForMember(d => d.Url, o => o.MapFrom(s => s.ImageUrl));
+        // =======================
+        // PRODUCT VARIANTS
+        // =======================
 
-        CreateMap<ProductReview, ProductReviewDTO>();
-        CreateMap<ProductVariant, ProductVariantDTO>();
+        CreateMap<ProductVariant, ProductVariantDTO>()
+            .ReverseMap()
+            .ForMember(d => d.Product, o => o.Ignore());
 
-    
-      
-        CreateMap<Category, CategoryDTO>();
+        // =======================
+        // VARIANT ATTRIBUTES
+        // =======================
+
+        CreateMap<ProductVariantAttribute, ProductVariantAttributeDTO>()
+            .ReverseMap()
+            .ForMember(d => d.ProductVariant, o => o.Ignore());
+
+        // =======================
+        // REVIEWS
+        // =======================
+
+        CreateMap<ProductReview, ProductReviewDTO>()
+            .ReverseMap()
+            .ForMember(d => d.Product, o => o.Ignore());
+
+        // =======================
+        // CATEGORY
+        // =======================
+
+        CreateMap<Category, CategoryDTO>()
+            .ReverseMap();
 
         // =======================
         // CUSTOMER
         // =======================
+
         CreateMap<CustomerProfile, CustomerDTO>();
 
-CreateMap<UpdateCustomerProfileDTO, CustomerProfile>()
-    .ForAllMembers(opts =>
-        opts.Condition((src, dest, srcMember) => srcMember != null));
-
+        CreateMap<UpdateCustomerProfileDTO, CustomerProfile>()
+            .ForAllMembers(opts =>
+                opts.Condition((src, dest, srcMember) => srcMember != null));
 
         // =======================
         // CART
         // =======================
+
         CreateMap<Cart, CartDTO>()
             .ForMember(d => d.Items,
                 o => o.MapFrom(s => s.CartItems));
@@ -57,6 +95,7 @@ CreateMap<UpdateCustomerProfileDTO, CustomerProfile>()
         // =======================
         // ORDERS
         // =======================
+
         CreateMap<Order, OrderDTO>();
         CreateMap<OrderItem, OrderItemDTO>();
         CreateMap<OrderAddress, DeliveryAddressDTO>();
@@ -65,11 +104,13 @@ CreateMap<UpdateCustomerProfileDTO, CustomerProfile>()
         // =======================
         // PAYMENTS
         // =======================
+
         CreateMap<Invoice, InvoiceDTO>()
             .ForMember(d => d.Id,
                 o => o.MapFrom(s => s.InvoiceId));
 
         CreateMap<Payment, PaymentDTO>();
+
         CreateMap<CreatePaymentDto, Payment>()
             .ForMember(d => d.PaymentId, o => o.Ignore())
             .ForMember(d => d.Status, o => o.MapFrom(_ => "pending"))
@@ -78,18 +119,15 @@ CreateMap<UpdateCustomerProfileDTO, CustomerProfile>()
         // =======================
         // UI / HOME
         // =======================
+
         CreateMap<Banner, BannerDTO>();
         CreateMap<HomeSection, HomeSectionDTO>();
-     
         CreateMap<HomeSectionProduct, HomeSectionProductDTO>();
 
         // =======================
         // OTHERS
         // =======================
-        CreateMap<Favourites, FavouritesDTO>();
-      
 
-    
-    
+        CreateMap<Favourites, FavouritesDTO>();
     }
 }

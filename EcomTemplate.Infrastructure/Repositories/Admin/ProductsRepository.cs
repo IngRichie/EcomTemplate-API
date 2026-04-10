@@ -13,59 +13,42 @@ public class AddProducts : IAddProducts
         _db = db;
     }
 
- public async Task<List<Product>> AddNewProducts(List<Product> products)
+public async Task<List<Product>> AddNewProducts(List<Product> products)
 {
-    var newProducts = new List<Product>();
-
-    foreach (var p in products)
+    // Ensure IDs are valid (optional but smart)
+    foreach (var product in products)
     {
-        var product = new Product
+        if (product.ProductId == Guid.Empty)
+            product.ProductId = Guid.NewGuid();
+
+        foreach (var img in product.Images)
         {
-            ProductId = p.ProductId,
-            Name = p.Name,
-            Description = p.Description,
-            CategoryId = p.CategoryId,
+            if (img.ProductImageId == Guid.Empty)
+                img.ProductImageId = Guid.NewGuid();
 
-           Images = p.Images?
-    .Select(img => new ProductImage
-    {
-        ProductImageId = img.ProductImageId,
-        ProductId = p.ProductId,
-        ImageUrl = img.ImageUrl,
-        IsPrimary = img.IsPrimary
-    })
-    .ToList() ?? new List<ProductImage>(),
+            img.ProductId = product.ProductId;
+        }
 
-            ProductVariants = p.ProductVariants?
-    .Select(v => new ProductVariant
-    {
-        ProductVariantId = v.ProductVariantId,
-        ProductId = p.ProductId,
-        Sku = v.Sku,
-        Price = v.Price,
-        Stock = v.Stock,
+        foreach (var variant in product.ProductVariants)
+        {
+            if (variant.ProductVariantId == Guid.Empty)
+                variant.ProductVariantId = Guid.NewGuid();
 
-        Attributes = v.Attributes?
-            .Select(a => new ProductVariantAttribute
+            variant.ProductId = product.ProductId;
+
+            foreach (var attr in variant.Attributes)
             {
-                ProductVariantAttributeId = a.ProductVariantAttributeId,
-                ProductVariantId = v.ProductVariantId,
-                Name = a.Name,
-                Value = a.Value
-            }).ToList()
-            ?? new List<ProductVariantAttribute>()
-    }).ToList()
-    ?? new List<ProductVariant>(),
+                if (attr.ProductVariantAttributeId == Guid.Empty)
+                    attr.ProductVariantAttributeId = Guid.NewGuid();
 
-            Reviews = new List<ProductReview>() // ignore on create
-        };
-
-        newProducts.Add(product);
+                attr.ProductVariantId = variant.ProductVariantId;
+            }
+        }
     }
 
-    await _db.Products.AddRangeAsync(newProducts);
+    await _db.Products.AddRangeAsync(products);
     await _db.SaveChangesAsync();
 
-    return newProducts;
+    return products;
 }
 }

@@ -10,29 +10,27 @@ namespace EcomTemplate.API.Controllers;
 [ApiController]
 [Route("api/admin/products/add-new-products")]
 [Authorize(Roles = "Admin")] 
-public class ProductsController : ControllerBase
+public class NewProductsController : ControllerBase
 {
     private readonly IAddProducts _repo;
     private readonly IMapper _mapper;
 
-    public ProductsController(IAddProducts repo, IMapper mapper)
+    public NewProductsController(IAddProducts repo, IMapper mapper)
     {
         _repo = repo;
         _mapper = mapper;
     }
 
-    [HttpPost]
-public async Task<IActionResult> AddNewProducts(List<ProductDTO> productsDTO)
+[HttpPost]
+public async Task<IActionResult> AddNewProducts([FromBody] List<ProductDTO> productsDTO)
 {
     var products = _mapper.Map<List<Product>>(productsDTO);
 
-    var result = await _repo.AddNewProducts(products); 
+    var result = await _repo.AddNewProducts(products);
 
-    return Ok(result);
+    var response = _mapper.Map<List<ProductDTO>>(result);
+
+    return Ok(response);
 }
-
-
-
-
     
 }
