@@ -13,7 +13,7 @@ public class CustomerDTO
     public string? Phone { get; set; }
 
     public string? ProfileImageUrl { get; set; }
-    public required string Role { get; set; }
+    public string? Role { get; set; }
 
     public string? Location { get; set; }
 

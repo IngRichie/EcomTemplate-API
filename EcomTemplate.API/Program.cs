@@ -24,6 +24,8 @@ using StackExchange.Redis;
 using System.Security.Claims;
 using System.Text;
 using CloudinaryDotNet;
+using EcomTemplate.Application.Interfaces.Admin.AdminDashboardTables;
+using EcomTemplate.Infrastructure.Repositories.Admin.AdminDashboardTables;
 
 // =============================================================
 // LOAD ENV
@@ -119,7 +121,9 @@ builder.Services.AddScoped<IAdminAuthService, AdminAuthService>();
 builder.Services.AddScoped<AdminTokenService>();
 
 builder.Services.AddScoped<IDashboardRespository, DashboardRespository>();
+builder.Services.AddScoped<IDashboardOrderRepository, DashboardOrderRepository>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddScoped<IDashboardCustomerRepository, DashboardCustomerRepository>();
 
 
 builder.Services.AddScoped<IAddProducts, AddProducts>();

@@ -9,7 +9,7 @@ namespace EcomTemplate.API.Controllers;
 
 [ApiController]
 [Route("api/admin/products/add-new-products")]
-[Authorize(Roles = "Admin")] 
+// [Authorize(Roles = "Admin")] 
 public class NewProductsController : ControllerBase
 {
     private readonly IAddProducts _repo;
@@ -33,4 +33,54 @@ public async Task<IActionResult> AddNewProducts([FromBody] List<ProductDTO> prod
     return Ok(response);
 }
     
+[HttpDelete("{productId:guid}")]
+public async Task<IActionResult> DeleteProduct(Guid productId)
+{
+var deleted = await _repo.DeleteProduct(productId);
+
+
+if (!deleted)
+{
+    return NotFound(new
+    {
+        Message = "Product not found"
+    });
+}
+
+return Ok(new
+{
+    Message = "Product deleted successfully"
+});
+
+
+}
+
+[HttpPut("{productId:guid}")]
+public async Task<IActionResult> UpdateProduct(
+Guid productId,
+[FromBody] ProductDTO productDto)
+{
+var product = _mapper.Map<Product>(productDto);
+
+
+var updatedProduct =
+    await _repo.UpdateProduct(product, productId);
+
+if (updatedProduct == null)
+{
+    return NotFound(new
+    {
+        Message = "Product not found"
+    });
+}
+
+var response =
+    _mapper.Map<ProductDTO>(updatedProduct);
+
+return Ok(response);
+
+
+}
+
+
 }

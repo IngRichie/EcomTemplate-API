@@ -9,7 +9,7 @@ public class UpdateCustomerProfileDTO
 
     public string? Email { get; set; }
     public string? Phone { get; set; }
-    public required string Role { get; set; }
+    public string Role { get; set; } = "Customer";
 
     [MaxLength(500)]
     public string? ProfileImageUrl { get; set; }
