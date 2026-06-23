@@ -124,6 +124,7 @@ builder.Services.AddScoped<IDashboardRespository, DashboardRespository>();
 builder.Services.AddScoped<IDashboardOrderRepository, DashboardOrderRepository>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
 builder.Services.AddScoped<IDashboardCustomerRepository, DashboardCustomerRepository>();
+builder.Services.AddScoped<IStoreSettings, StoreSettingsRepository>();
 
 
 builder.Services.AddScoped<IAddProducts, AddProducts>();

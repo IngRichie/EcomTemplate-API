@@ -1,6 +1,8 @@
 using AutoMapper;
 using EcomTemplate.Application.DTOs;
+using EcomTemplate.Application.DTOs.AdminDTOs;
 using EcomTemplate.Domain.Entities;
+using EcomTemplate.Domain.Entities.Admin;
 
 namespace EcomTemplate.Application.Mapping;
 
@@ -110,6 +112,8 @@ public class AutoMapperProfile : Profile
                 o => o.MapFrom(s => s.InvoiceId));
 
         CreateMap<Payment, PaymentDTO>();
+
+        CreateMap<StoreSettingsDTO, StoreSettings>();
 
         CreateMap<CreatePaymentDto, Payment>()
             .ForMember(d => d.PaymentId, o => o.Ignore())

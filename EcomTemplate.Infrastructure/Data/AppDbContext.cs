@@ -60,6 +60,7 @@ public DbSet<ProductReview> ProductReviews => Set<ProductReview>();
 
 public DbSet<CustomerAuth> CustomerAuths => Set<CustomerAuth>();
 public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+public DbSet<StoreSettings> StoreSettings => Set<StoreSettings>();
 
 
 }
