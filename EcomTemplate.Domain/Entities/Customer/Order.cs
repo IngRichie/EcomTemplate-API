@@ -39,9 +39,17 @@ public class Order
     public decimal TotalAmount { get; set; }
 
     [Required, MaxLength(30)]
-    public string Status { get; set; } = "pending";
+    public string Status { get; set; } = "PendingPayment";
+
+    [Required, MaxLength(10)]
+    public string Currency { get; set; } = "GHS";
+
+    [MaxLength(100)]
+    public string? PaymentReference { get; set; }
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    public DateTime? UpdatedAt { get; set; }
 
     // =======================
     // NAVIGATION

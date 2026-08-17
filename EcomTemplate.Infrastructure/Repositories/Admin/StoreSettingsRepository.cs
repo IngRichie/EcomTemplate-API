@@ -12,9 +12,9 @@ using Microsoft.EntityFrameworkCore;
 public class StoreSettingsRepository : IStoreSettings
 {
     private readonly AppDbContext _db;
-    private readonly Mapper _mapper;
+    private readonly IMapper _mapper;
 
-    public StoreSettingsRepository(AppDbContext db, Mapper mapper)
+    public StoreSettingsRepository(AppDbContext db, IMapper mapper)
     {
         _db = db;
         _mapper = mapper;

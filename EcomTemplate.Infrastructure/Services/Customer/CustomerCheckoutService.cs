@@ -2,6 +2,7 @@ using EcomTemplate.Application.DTOs;
 using EcomTemplate.Application.Interfaces;
 using EcomTemplate.Domain.Entities;
 using EcomTemplate.Infrastructure.Data;
+using EcomTemplate.Infrastructure.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -12,13 +13,13 @@ public class CustomerCheckoutService : ICustomerCheckoutService
     private readonly ICustomerCartRepository _cartRepository;
     private readonly IOrderRepository _orderRepository;
     private readonly AppDbContext _dbContext;
-    private readonly CheckoutSettings _settings;
+    private readonly CheckoutDefaultsOptions _settings;
 
     public CustomerCheckoutService(
         ICustomerCartRepository cartRepository,
         IOrderRepository orderRepository,
         AppDbContext dbContext,
-        IOptions<CheckoutSettings> settings)
+        IOptions<CheckoutDefaultsOptions> settings)
     {
         _cartRepository = cartRepository;
         _orderRepository = orderRepository;
@@ -75,8 +76,13 @@ public class CustomerCheckoutService : ICustomerCheckoutService
         var order = new Order
         {
             CustomerProfileId = customerId,
+            SubTotal = summary.SubTotal,
+            DiscountAmount = summary.Discount,
+            TaxAmount = summary.Tax,
+            DeliveryFee = summary.DeliveryFee,
             TotalAmount = summary.Total,
-            Status = "pending",
+            Status = "PendingPayment",
+            Currency = "GHS",
             CreatedAt = DateTime.UtcNow
         };
 
@@ -85,8 +91,12 @@ public class CustomerCheckoutService : ICustomerCheckoutService
             order.Items.Add(new OrderItem
             {
                 ProductId = item.ProductId,
+                ProductVariantId = item.ProductVariantId,
+                ProductNameSnapshot = item.Product.Name,
+                SkuSnapshot = item.ProductVariant.Sku,
                 Quantity = item.Quantity,
-                UnitPrice = item.ProductVariant.Price
+                UnitPrice = item.ProductVariant.Price,
+                LineTotal = item.ProductVariant.Price * item.Quantity
             });
         }
 

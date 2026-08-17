@@ -98,8 +98,12 @@ public class AutoMapperProfile : Profile
         // ORDERS
         // =======================
 
-        CreateMap<Order, OrderDTO>();
-        CreateMap<OrderItem, OrderItemDTO>();
+        CreateMap<Order, OrderDTO>()
+            .ForMember(d => d.Id, o => o.MapFrom(s => s.OrderId));
+
+        CreateMap<OrderItem, OrderItemDTO>()
+            .ForMember(d => d.ProductName, o => o.MapFrom(s => s.ProductNameSnapshot))
+            .ForMember(d => d.Sku, o => o.MapFrom(s => s.SkuSnapshot));
         CreateMap<OrderAddress, DeliveryAddressDTO>();
         CreateMap<DeliveryAddress, DeliveryAddressDTO>();
 
@@ -117,7 +121,8 @@ public class AutoMapperProfile : Profile
 
         CreateMap<CreatePaymentDto, Payment>()
             .ForMember(d => d.PaymentId, o => o.Ignore())
-            .ForMember(d => d.Status, o => o.MapFrom(_ => "pending"))
+            .ForMember(d => d.Provider, o => o.MapFrom(_ => "Paystack"))
+            .ForMember(d => d.Status, o => o.MapFrom(_ => "Pending"))
             .ForMember(d => d.CreatedAt, o => o.MapFrom(_ => DateTime.UtcNow));
 
         // =======================

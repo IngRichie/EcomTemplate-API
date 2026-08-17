@@ -10,8 +10,8 @@ public interface ICustomerCartRepository
     Task<Cart?> GetCartByCustomer(Guid customerId);
 
     // Cart operations
-    Task AddToCart(Guid cartId, Guid productVariantId, int quantity);
-    Task UpdateItemQuantity(Guid cartId, Guid productVariantId, int quantity);
-    Task RemoveItem(Guid cartId, Guid productVariantId);
-    Task ClearCart(Guid cartId);
+    Task AddToCart(Guid customerId, Guid cartId, Guid productVariantId, int quantity);
+    Task UpdateItemQuantity(Guid customerId, Guid cartId, Guid productVariantId, int quantity);
+    Task RemoveItem(Guid customerId, Guid cartId, Guid productVariantId);
+    Task ClearCart(Guid customerId, Guid cartId);
 }

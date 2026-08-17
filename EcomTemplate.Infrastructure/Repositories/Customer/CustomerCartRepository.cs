@@ -49,12 +49,15 @@ public class CustomerCartRepository : ICustomerCartRepository
     // =========================
     // ADD ITEM
     // =========================
-    public async Task AddToCart(Guid cartId, Guid productVariantId, int quantity)
+    public async Task AddToCart(Guid customerId, Guid cartId, Guid productVariantId, int quantity)
     {
         if (quantity <= 0)
             throw new Exception("Quantity must be greater than zero.");
 
-        var cart = await _db.Carts.FirstOrDefaultAsync(c => c.CartId == cartId && !c.IsCheckedOut);
+        var cart = await _db.Carts.FirstOrDefaultAsync(c =>
+            c.CartId == cartId &&
+            c.CustomerProfileId == customerId &&
+            !c.IsCheckedOut);
         if (cart == null)
             throw new Exception("Cart not found.");
 
@@ -94,14 +97,18 @@ public class CustomerCartRepository : ICustomerCartRepository
     // =========================
     // UPDATE ITEM QUANTITY
     // =========================
-    public async Task UpdateItemQuantity(Guid cartId, Guid productVariantId, int quantity)
+    public async Task UpdateItemQuantity(Guid customerId, Guid cartId, Guid productVariantId, int quantity)
     {
         if (quantity <= 0)
             throw new Exception("Quantity must be greater than zero.");
 
         var item = await _db.CartItems
             .Include(ci => ci.ProductVariant)
-            .FirstOrDefaultAsync(ci => ci.CartId == cartId && ci.ProductVariantId == productVariantId);
+            .Include(ci => ci.Cart)
+            .FirstOrDefaultAsync(ci =>
+                ci.CartId == cartId &&
+                ci.Cart.CustomerProfileId == customerId &&
+                ci.ProductVariantId == productVariantId);
 
         if (item == null)
             throw new Exception("Cart item not found.");
@@ -117,10 +124,14 @@ public class CustomerCartRepository : ICustomerCartRepository
     // =========================
     // REMOVE ITEM
     // =========================
-    public async Task RemoveItem(Guid cartId, Guid productVariantId)
+    public async Task RemoveItem(Guid customerId, Guid cartId, Guid productVariantId)
     {
         var item = await _db.CartItems
-            .FirstOrDefaultAsync(ci => ci.CartId == cartId && ci.ProductVariantId == productVariantId);
+            .Include(ci => ci.Cart)
+            .FirstOrDefaultAsync(ci =>
+                ci.CartId == cartId &&
+                ci.Cart.CustomerProfileId == customerId &&
+                ci.ProductVariantId == productVariantId);
 
         if (item == null)
             throw new Exception("Cart item not found.");
@@ -132,10 +143,11 @@ public class CustomerCartRepository : ICustomerCartRepository
     // =========================
     // CLEAR CART
     // =========================
-    public async Task ClearCart(Guid cartId)
+    public async Task ClearCart(Guid customerId, Guid cartId)
     {
         var items = await _db.CartItems
-            .Where(ci => ci.CartId == cartId)
+            .Include(ci => ci.Cart)
+            .Where(ci => ci.CartId == cartId && ci.Cart.CustomerProfileId == customerId)
             .ToListAsync();
 
         _db.CartItems.RemoveRange(items);

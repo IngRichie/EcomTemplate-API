@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using EcomTemplate.Domain.Entities;
 using EcomTemplate.Domain.Entities.Admin;
+using GrocerySupermarket.Domain.Entities;
 
 namespace EcomTemplate.Infrastructure.Data;
 
@@ -61,6 +62,37 @@ public DbSet<ProductReview> ProductReviews => Set<ProductReview>();
 public DbSet<CustomerAuth> CustomerAuths => Set<CustomerAuth>();
 public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 public DbSet<StoreSettings> StoreSettings => Set<StoreSettings>();
+public DbSet<ContactMessage> ContactMessage => Set<ContactMessage>();
 
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    base.OnModelCreating(modelBuilder);
+
+    modelBuilder.Entity<ProductVariant>()
+        .HasIndex(v => v.Sku)
+        .IsUnique();
+
+    modelBuilder.Entity<Payment>()
+        .HasIndex(p => p.ProviderReference)
+        .IsUnique();
+
+    modelBuilder.Entity<Order>()
+        .HasIndex(o => o.PaymentReference);
+
+    modelBuilder.Entity<Order>()
+        .HasIndex(o => o.CustomerProfileId);
+
+    modelBuilder.Entity<Cart>()
+        .HasIndex(c => new { c.CustomerProfileId, c.IsCheckedOut });
+
+    modelBuilder.Entity<CartItem>()
+        .HasOne(ci => ci.Cart)
+        .WithMany(c => c.CartItems)
+        .HasForeignKey(ci => ci.CartId)
+        .OnDelete(DeleteBehavior.Cascade);
+
+    modelBuilder.Entity<OrderItem>()
+        .HasIndex(oi => oi.ProductVariantId);
+}
 
 }

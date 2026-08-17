@@ -25,40 +25,42 @@ public class AuthService : IAuthService
     // =======================
     // REGISTER (EMAIL/PASSWORD)
     // =======================
-    public async Task<AuthResponseDto> Register(CustomerDTO dto, string password)
+   public async Task<AuthResponseDto> Register(CustomerDTO dto, string password)
+{
+    var existingProfile = await _db.CustomerProfiles
+        .AsNoTracking()
+        .FirstOrDefaultAsync(x => x.Email == dto.Email);
+
+if (existingProfile != null)
+{
+    throw new InvalidOperationException("Email already registered.");
+}
+
+    var profile = new CustomerProfile
     {
-        var existingProfile = await _db.CustomerProfiles
-            .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Email == dto.Email);
+        FirstName = dto.FirstName,
+        LastName = dto.LastName,
+        Email = dto.Email,
+        Phone = dto.Phone,
+        Role = "Customer",
+        CreatedAt = DateTime.UtcNow
+    };
 
-        if (existingProfile != null)
-            throw new Exception("Email already registered.");
+    _db.CustomerProfiles.Add(profile);
+    await _db.SaveChangesAsync();
 
-        var profile = new CustomerProfile
-        {
-            FirstName = dto.FirstName,
-            LastName  = dto.LastName,
-            Email     = dto.Email,
-            Phone     = dto.Phone,
-            Role      = "Customer",
-            CreatedAt = DateTime.UtcNow
-        };
+    var auth = new CustomerAuth
+    {
+        CustomerProfileId = profile.CustomerProfileId
+    };
 
-        _db.CustomerProfiles.Add(profile);
-        await _db.SaveChangesAsync();
+    auth.PasswordHash = _passwordHasher.HashPassword(auth, password);
 
-        var auth = new CustomerAuth
-        {
-            CustomerProfileId = profile.CustomerProfileId
-        };
+    _db.CustomerAuths.Add(auth);
+    await _db.SaveChangesAsync();
 
-        auth.PasswordHash = _passwordHasher.HashPassword(auth, password);
-
-        _db.CustomerAuths.Add(auth);
-        await _db.SaveChangesAsync();
-
-        return await GenerateAuthResponse(profile, rememberMe: false);
-    }
+    return await GenerateAuthResponse(profile, rememberMe: false);
+}
 
     // =======================
     // LOGIN (EMAIL/PASSWORD)

@@ -25,6 +25,7 @@ public class CartItem
     // Navigation
     public Product Product { get; set; } = null!;
     public ProductVariant ProductVariant { get; set; } = null!;
+    public Cart Cart { get; set; } = null!;
 
     // ===== Derived (NOT persisted) =====
     [NotMapped]

@@ -26,9 +26,23 @@ public class PaymentRepository : IPaymentRepository
             .FirstOrDefaultAsync(p => p.PaymentId == paymentId);
     }
 
+    public async Task<Payment?> GetByReferenceAsync(string reference)
+    {
+        return await _dbContext.Payments
+            .Include(p => p.Order)
+                .ThenInclude(o => o.Items)
+            .FirstOrDefaultAsync(p => p.ProviderReference == reference);
+    }
+
     public async Task AddAsync(Payment payment)
     {
         await _dbContext.Payments.AddAsync(payment);
+    }
+
+    public Task UpdateAsync(Payment payment)
+    {
+        _dbContext.Payments.Update(payment);
+        return Task.CompletedTask;
     }
 
     public async Task SaveAsync()
