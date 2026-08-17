@@ -26,6 +26,8 @@ using System.Text;
 using CloudinaryDotNet;
 using EcomTemplate.Application.Interfaces.Admin.AdminDashboardTables;
 using EcomTemplate.Infrastructure.Repositories.Admin.AdminDashboardTables;
+using GrocerySupermarket.Domain.Interfaces;
+using GrocerySupermarket.Infrastructure.Repositories;
 
 // =============================================================
 // LOAD ENV
@@ -113,8 +115,8 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderService, CustomerOrderService>();
 
 // ===== PAYMENT =====
-builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+builder.Services.AddHttpClient<IPaymentService, PaymentService>();
 
 // ===== ADMIN =====
 builder.Services.AddScoped<IAdminAuthService, AdminAuthService>();
@@ -126,7 +128,7 @@ builder.Services.AddScoped<IDashboardService, DashboardService>();
 builder.Services.AddScoped<IDashboardCustomerRepository, DashboardCustomerRepository>();
 builder.Services.AddScoped<IStoreSettings, StoreSettingsRepository>();
 
-
+builder.Services.AddScoped<IContactMessageRepository, ContactMessageRepository>();
 builder.Services.AddScoped<IAddProducts, AddProducts>();
 
 // ===== AUTOMAPPER =====
@@ -136,6 +138,14 @@ builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 builder.Services.Configure<CheckoutDefaultsOptions>(
     builder.Configuration.GetSection("CheckoutSettings")
 );
+builder.Services.Configure<PaystackOptions>(options =>
+{
+    builder.Configuration.GetSection("Paystack").Bind(options);
+    options.SecretKey = Environment.GetEnvironmentVariable("PAYSTACK_SECRET_KEY") ?? options.SecretKey;
+    options.PublicKey = Environment.GetEnvironmentVariable("PAYSTACK_PUBLIC_KEY") ?? options.PublicKey;
+    options.BaseUrl = Environment.GetEnvironmentVariable("PAYSTACK_BASE_URL") ?? options.BaseUrl;
+    options.CallbackUrl = Environment.GetEnvironmentVariable("PAYSTACK_CALLBACK_URL") ?? options.CallbackUrl;
+});
 
 // =============================================================
 // JWT AUTHENTICATION

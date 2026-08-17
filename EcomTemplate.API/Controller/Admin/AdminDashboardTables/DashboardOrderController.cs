@@ -1,12 +1,14 @@
 
 
 using EcomTemplate.Application.Interfaces.Admin.AdminDashboardTables;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcomTemplate.API.Controller.Admin.AdminDashboardTables;
 
 [ApiController]
 [Route("api/admin/dashboard-order")]
+[Authorize(Roles ="Admin")]
 public class DashboardOrders : ControllerBase
 {
     private readonly IDashboardOrderRepository _dashboardOrderRespo;

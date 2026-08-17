@@ -9,7 +9,7 @@ namespace EcomTemplate.API.Controllers;
 
 [ApiController]
 [Route("api/admin/products/add-new-products")]
-// [Authorize(Roles = "Admin")] 
+[Authorize(Roles = "Admin")] 
 public class NewProductsController : ControllerBase
 {
     private readonly IAddProducts _repo;

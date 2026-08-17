@@ -6,7 +6,7 @@ namespace EcomTemplate.API.Controllers;
 
 [ApiController]
 [Route("api/admin/dashboard")]
-// [Authorize(Roles = "Admin")] 
+[Authorize(Roles = "Admin")] 
 public class DashboardController : ControllerBase
 {
     private readonly IDashboardService _service;

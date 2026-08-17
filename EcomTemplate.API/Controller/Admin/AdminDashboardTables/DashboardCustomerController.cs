@@ -1,4 +1,5 @@
 using EcomTemplate.Application.Interfaces.Admin.AdminDashboardTables;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcomTemplate.API.Controller.Admin.AdminDashboardTables;
@@ -6,6 +7,7 @@ namespace EcomTemplate.API.Controller.Admin.AdminDashboardTables;
 
    [ApiController]
 [Route("api/admin/dashboard")]
+[Authorize(Roles ="Admin")]
 public class DashboardCustomersController : ControllerBase
 {
     private readonly IDashboardCustomerRepository _repo;

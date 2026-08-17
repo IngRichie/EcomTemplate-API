@@ -1,11 +1,13 @@
 using EcomTemplate.Application.DTOs.AdminDTOs;
 using EcomTemplate.Application.Interfaces.Admin;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcomTemplate.API.Controllers;
 
 [ApiController]
 [Route("api/admin/store-settings")]
+[Authorize(Roles ="Admin")]
 public class StoreSettingsController : ControllerBase
 {
     private readonly IStoreSettings _repo;

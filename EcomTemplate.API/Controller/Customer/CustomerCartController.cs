@@ -55,7 +55,8 @@ public class CustomerCartController : ControllerBase
         [FromQuery] Guid productVariantId,
         [FromQuery] int quantity)
     {
-        await _cartRepository.AddToCart(cartId, productVariantId, quantity);
+        var customerId = UserHelper.GetUserId(User);
+        await _cartRepository.AddToCart(customerId, cartId, productVariantId, quantity);
         return Ok();
     }
 
@@ -68,7 +69,8 @@ public class CustomerCartController : ControllerBase
         [FromQuery] Guid productVariantId,
         [FromQuery] int quantity)
     {
-        await _cartRepository.UpdateItemQuantity(cartId, productVariantId, quantity);
+        var customerId = UserHelper.GetUserId(User);
+        await _cartRepository.UpdateItemQuantity(customerId, cartId, productVariantId, quantity);
         return Ok();
     }
 
@@ -80,7 +82,8 @@ public class CustomerCartController : ControllerBase
         [FromQuery] Guid cartId,
         [FromQuery] Guid productVariantId)
     {
-        await _cartRepository.RemoveItem(cartId, productVariantId);
+        var customerId = UserHelper.GetUserId(User);
+        await _cartRepository.RemoveItem(customerId, cartId, productVariantId);
         return Ok();
     }
 
@@ -90,7 +93,8 @@ public class CustomerCartController : ControllerBase
     [HttpDelete("clear")]
     public async Task<IActionResult> ClearCart([FromQuery] Guid cartId)
     {
-        await _cartRepository.ClearCart(cartId);
+        var customerId = UserHelper.GetUserId(User);
+        await _cartRepository.ClearCart(customerId, cartId);
         return Ok();
     }
 }

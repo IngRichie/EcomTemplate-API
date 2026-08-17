@@ -14,6 +14,7 @@ public class ApiKeyMiddleware
         "/api/category-promos",
         "/api/banners",
         "/api/orders",          // GET only (JWT handles auth)
+        "/api/payments",
         "/api/invoices",        // JWT only
         "/swagger",
         "/"
